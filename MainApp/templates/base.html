@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Khata</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
+   <link rel="shortcut icon" href="{% static 'images/logoNoBG.png' %}" type="image/x-icon">
+    {% block css %}{% endblock %}
+
+</head>
+<body>
+<nav>
+    <img src="{% static 'images/logoNoBG.png' %}" class="sub-nav" alt="logo" height="100%">
+    <ul class="sub-nav">
+        {% if user.is_authenticated %}
+    <li><a href="{% url 'MainApp:home' %}">Home</a></li>
+        <li><a href="">About</a></li>
+        <li><a href="{% url 'LoginApp:logout' %}">Logout</a></li>
+        {% endif %}
+
+
+    </ul>
+</nav>
+{% block content %}{% endblock %}
+<footer>
+    <!-- add footer -->
+    <p><a href="https://www.linkedin.com/in/mpaantoijl">&#169; Manoj@Patil</a></p>
+</footer>
+</body>
+</html>

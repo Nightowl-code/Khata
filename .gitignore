@@ -1,0 +1,37 @@
+__pycache__/
+*.env
+*.venv
+
+db.sqlite3
+*.sqlite3
+*.log
+media/
+staticfiles/
+*.pot
+*.pyc
+
+
+# Environments
+.env
+*.env
+*.env.*
+venv/
+ENV/
+env/
+myenv
+venv.bak/
+pip-log.txt
+
+
+# Django specific files
+*.migrations/
+*.migrations/*.py
+*.migrations/*.pyc
+*/migrations/*.py
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace

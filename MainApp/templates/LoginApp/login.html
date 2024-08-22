@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'login/login.css' %}">
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+
+{% endblock css %}
+{% block content %}
+<div class="outer-container">
+<div class="container" id="container">
+    <h1>Login</h1>
+    {% csrf_token %}
+    <div class="inner-container">
+    <div class="username innermost-container">
+        <label for="username">Username:</label><input type="text" placeholder="Username" name="username" id="username">
+    </div>
+    <div class="pass innermost-container">
+        <label for="password">Password:</label><input type="password" placeholder="Password" name="password" id="password">
+    </div>
+    <div class="submit" onclick="login()"><button>Submit</button></div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="{% static '/login/login.js' %}"></script>
+
+{% endblock content %}

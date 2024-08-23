@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block css %}
+<!-- <link rel="stylesheet" href="{% static 'login/login.css' %}"> -->
+<link rel="stylesheet" href="{% static 'MainApp/users.css' %}">
+
+{% endblock css %}
+{% block content %}
+<div class="outer-container">
+<div class="header">
+    <span class="search" id="search">
+        <input type="text" id="search-box" placeholder="Search">
+    </span>
+    <span class="sort" id="sort">
+        <select name="sort" id="sort-box" >
+            <option value="username" selected>Username</option>
+            <option value="amount">Amount</option>
+            <option value="name">Name</option>
+        </select>
+    </span>
+    <span class="order" id="order">
+        <select name="order" id="order-box">
+            <option value="asc" selected>Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+    </span>
+    <span class="createuser">
+        <a href="/createuser">Create User</a>
+    </span>
+</div>
+<div class="container" id="container">
+    <div class="user-box userlist-header">
+        <span class="username">Username</span>
+        <span class="user-name">Name</span>
+        <span class="amount">Amount</span>
+    </div>
+    <div class="userlist-container">
+    {% for user in users %}
+        <a class="user-box user" href="{%url 'MainApp:user' id=user.username %}">
+        <span class="username">{{ user.username }}</span>
+        <span class="user-name">{{user.first_name}} {{user.last_name}}</span>
+        <span class="amount" style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{user.amount}}</span>  
+    </a>
+    {% endfor %}
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="{% static '/login/login.js' %}"></script>
+
+{% endblock content %}

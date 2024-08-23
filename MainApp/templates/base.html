@@ -18,8 +18,9 @@
     <img src="{% static 'images/logoNoBG.png' %}" class="sub-nav" alt="logo" height="100%">
     <ul class="sub-nav">
         {% if user.is_authenticated %}
-    <li><a href="{% url 'MainApp:home' %}">Home</a></li>
-        <li><a href="">About</a></li>
+        <li><a href="{% url 'MainApp:home' %}">Home</a></li>
+    <li><a href="{% url 'MainApp:users' %}">Users</a></li>
+        <li><a href="">Hisab</a></li>
         <li><a href="{% url 'LoginApp:logout' %}">Logout</a></li>
         {% endif %}
 

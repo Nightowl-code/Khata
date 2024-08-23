@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'login/login.css' %}">
+<link rel="stylesheet" href="{% static 'MainApp/addTransaction.css' %}">
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+<style>
+.error>ul>li {
+    display: flex;
+    list-style-type: none;
+    gap: 1rem;
+    /* appearance: none; */
+    display: flex;
+    /* color: red; */
+    /* background: red; */
+    flex-direction: row;
+}
+.error>ul>li::before {
+    content: "⚠️";
+    margin-right: 1rem;
+}
+.errorlist>li {
+    color: red;
+    list-style-type: none;
+    font-family: fangsong;
+}
+</style>
+{% endblock css %}
+{% block content %}
+<div class="outer-container">
+    <div class="container" id="container">
+    <h1>Add User</h1>
+    <div class="error" id="error">{{error}}</div>
+    <form action="/{{action}}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add User">
+    </form>
+    </div>
+</div>
+{% endblock %}

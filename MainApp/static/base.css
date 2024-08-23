@@ -21,6 +21,28 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+
+/* scroll bar */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+    ::-webkit-scrollbar-thumb {
+    background: #888; 
+      border-radius:10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    
+    background: #555; 
+  } 
+
+
+/* scroll bar end */
+
+
 nav {
     margin-bottom: 2rem;
     height: 4rem;

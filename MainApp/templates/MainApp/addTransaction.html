@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'login/login.css' %}">
+<link rel="stylesheet" href="{% static 'MainApp/addTransaction.css' %}">
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+
+
+{% endblock css %}
+{% block content %}
+<div class="outer-container">
+    <div class="container" id="container">
+    <h1>Add Transaction</h1>
+    <form action="/addtransaction" method="POST" onsubmit="document.getElementById('id_party').disabled = false;document.getElementById('id_type').disabled = false;">
+        {% csrf_token %}
+        {% for a in form %}
+            <p class="form-group">
+                <label for="{{a.id_for_label}}">{{a.label}}</label>
+                {{a}}
+            </p>
+        {% endfor %}
+        <input type="submit" value="Add Transaction">
+    </form>
+    </div>
+</div>
+{% endblock %}

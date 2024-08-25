@@ -137,10 +137,10 @@ def editUser(request,id):
             else:
                 return redirect("MainApp:home")
         else:
-            return render(request, "MainApp/createUser.html", {"form": form, "user": user,"action":'edituser/{}'.format(id),"error": form.errors})
+            return render(request, "MainApp/createUser.html", {"form": form, "user1": user,"action":'edituser/{}'.format(id),"error": form.errors})
     else:
         form = UserForm(instance=user)
-        return render(request, "MainApp/createUser.html", {"form": form, "user": user,"action":'edituser/{}'.format(id)})
+        return render(request, "MainApp/createUser.html", {"form": form, "user1": user,"action":'edituser/{}'.format(id)})
     
 def deleteUser(request,id):
     if not request.user.is_staff:

@@ -10,7 +10,7 @@ div#container {
 .row {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     gap: 1rem;
     justify-content: space-evenly;
 }

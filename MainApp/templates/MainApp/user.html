@@ -7,17 +7,17 @@
 <div class="outer-container">
   <div class="display-container">
     <div class="display-box">
-      <span class="display-name">Username : </span>
+      <span class="display-name">Username: </span>
       <span class="display-value">{{ user.username }}</span>
     </div>
     <div class="display-box">
-      <span class="display-name">Name : </span>
+      <span class="display-name">Name: </span>
       <span class="display-value"
         >{{ user1.first_name }} {{ user1.last_name }}</span
       >
     </div>
     <div class="display-box">
-      <span class="display-name">Amount : </span>
+      <span class="display-name">Amount: </span>
       <span
         class="display-value"
         style="font-family:'Times New Roman', Times, serif;color:{% if user1.amount_type == 'credit' %}green{% else %}red{% endif %};"

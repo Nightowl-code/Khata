@@ -11,19 +11,23 @@ class TransactionForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        # Extract 'prefill' before calling super().__init__()
+        prefill = kwargs.pop('prefill', None)
         super(TransactionForm, self).__init__(*args, **kwargs)
 
+        # Handle factor for amount adjustments
         factor = getattr(settings, 'FACTOR', 0)
 
-        if 'prefill' in kwargs:
-            prefill = kwargs.pop('prefill')
+        # Apply prefill values and disable fields if necessary
+        if prefill:
             for key, value in prefill.items():
-                self.fields[key].initial = value
-                self.fields[key].widget.attrs['disabled'] = True
-        
+                if key in self.fields:
+                    self.fields[key].initial = value
+                    self.fields[key].widget.attrs['disabled'] = True  # Remember, disabled fields are not submitted
+
         if self.instance and self.instance.pk:
+            # Adjust the amount according to the factor
             adjusted_amount = self.instance.amount * (10 ** factor)
-            # Override the initial value for the amount field
             self.initial['amount'] = adjusted_amount
             self.fields['amount'].initial = adjusted_amount
 
@@ -35,6 +39,7 @@ class TransactionForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super(TransactionForm, self).save(commit=False)
 
+        # Re-adjust amount before saving if a factor is used
         factor = getattr(settings, 'FACTOR', 0)
         if factor:
             instance.amount = instance.amount / (10 ** factor)

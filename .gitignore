@@ -22,7 +22,11 @@ myenv
 venv.bak/
 pip-log.txt
 
+# Ignore all files in migrations directories
+**/migrations/*
 
+# But do not ignore __init__.py files
+!**/migrations/__init__.py
 
 # IDEs and Editors
 .vscode/

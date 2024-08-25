@@ -14,6 +14,13 @@ def home(request):
             users = CustomUser.objects.filter(is_staff=False)
             # add amount of all users.amount in amount variable
             # user with highest credit amount and highest debit amount
+            # if users has no 
+            if len(users) == 0:
+                amount = {
+                    "value" : "0",
+                    "type": "credit"
+                }
+                return render(request, "MainApp/home.html",{"amount": amount})
             max_credit_user = users[0]
             max_debit_user = users[0]
             amount = 0
@@ -32,14 +39,18 @@ def home(request):
             credit_transaction = transaction.filter(type="credit")
             debit_transaction = transaction.filter(type="debit")
             # get the highest credit and debit transaction
-            max_credit_transaction = credit_transaction[0]
-            max_debit_transaction = debit_transaction[0]
-            for t in credit_transaction:
-                if t.amount > max_credit_transaction.amount:
-                    max_credit_transaction = t
-            for t in debit_transaction:
-                if t.amount > max_debit_transaction.amount:
-                    max_debit_transaction = t
+            if len(credit_transaction) == 0 or len(debit_transaction) == 0:
+                max_credit_transaction = None
+                max_debit_transaction = None
+            else:
+                max_credit_transaction = credit_transaction[0]
+                max_debit_transaction = debit_transaction[0]
+                for t in credit_transaction:
+                    if t.amount > max_credit_transaction.amount:
+                        max_credit_transaction = t
+                for t in debit_transaction:
+                    if t.amount > max_debit_transaction.amount:
+                        max_debit_transaction = t
             
             # last 10 transactions
             current_transaction = transaction.order_by('-date')[:20]

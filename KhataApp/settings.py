@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

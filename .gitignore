@@ -23,11 +23,6 @@ venv.bak/
 pip-log.txt
 
 
-# Django specific files
-*.migrations/
-*.migrations/*.py
-*.migrations/*.pyc
-*/migrations/*.py
 
 # IDEs and Editors
 .vscode/

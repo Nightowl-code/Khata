@@ -125,7 +125,7 @@ def user(request, id):
     return render(request, "MainApp/user.html", {"user1": user, "transactions": transactions})
 
 def editUser(request,id):
-    if not request.user.is_staff and request.user.username != id:
+    if not request.user.is_staff:
         return redirect("MainApp:home")
     user = CustomUser.objects.get(username=id)
     if request.method == "POST":

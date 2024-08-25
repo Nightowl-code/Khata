@@ -22,8 +22,6 @@
         {% if user.is_staff %}
     <li><a href="{% url 'MainApp:users' %}">Users</a></li>
         <li><a href="{% url 'MainApp:hisab' %}">Hisab</a></li>
-        {% else %}
-        <li><a href="{% url 'MainApp:updatePassword' %}">Password</a></li>
         {% endif %}
         <li><a href="{% url 'LoginApp:logout' %}">Logout</a></li>
         {% endif %}
@@ -34,7 +32,7 @@
 {% block content %}{% endblock %}
 <footer>
     <!-- add footer -->
-    <p><a href="https://www.linkedin.com/in/mpaantoijl">&#169; Manoj@Patil</a></p>
+    <p><a href="https://www.linkedin.com/in/mpaantoijl">&#169; Made with ❤️</a></p>
 </footer>
 </body>
 </html>

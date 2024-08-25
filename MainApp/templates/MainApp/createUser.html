@@ -41,6 +41,15 @@
     flex-direction: column;
     align-items: center;
 }
+.form-box {
+    max-height: calc(50vh - 4rem );
+    overflow: auto;
+    display: flex;
+    gap: .5rem;
+    padding: .5rem 0;
+    /* background: red; */
+    flex-direction: column;
+}
 </style>
 {% endblock css %}
 {% block content %}
@@ -50,7 +59,9 @@
     <div class="error" id="error">{{error}}</div>
     <form action="/{{action}}" method="POST">
         {% csrf_token %}
+        <div class="form-box">
         {{ form.as_p }}
+    </div>
         <input type="submit" value="Add User">
     </form>
     </div>

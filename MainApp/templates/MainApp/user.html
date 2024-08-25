@@ -38,10 +38,10 @@
       >
     </span>
     <span class="addDebit button">
-      <a href="/addtransaction?party={{ user1.username }}&type=debit">Add</a>
+      <a href="/addtransaction?party={{ user1.username }}&type=debit">Add Debit</a>
     </span>
     <span class="addCredit button">
-      <a href="/addtransaction?party={{ user1.username }}&type=credit">Add</a>
+      <a href="/addtransaction?party={{ user1.username }}&type=credit">Add Credit</a>
     </span>
   </div>
 {% endif %}
@@ -61,7 +61,7 @@
         <span
           class="amount"
           style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
-          >{{transaction.amount}}</span
+          >{{transaction.amount|floatformat:2}}</span
         >
       </a>
       {% endfor %}

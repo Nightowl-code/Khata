@@ -53,10 +53,11 @@ class TransactionForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    active = forms.BooleanField(required=False, label="Is Active")  # Add the active field
 
     class Meta:
         model = models.CustomUser
-        fields = ['username', 'first_name', 'last_name', 'password']
+        fields = ['username', 'first_name', 'last_name','active', 'password']  # Include the active field
 
     def clean(self):
         cleaned_data = super().clean()

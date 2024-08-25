@@ -34,3 +34,5 @@ pip-log.txt
 *.sublime-workspace
 *.sublime-project
 *.code-workspace
+
+*/static/admin/*

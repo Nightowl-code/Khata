@@ -4,19 +4,19 @@
     box-sizing: border-box;
     color: aliceblue;
 }
-html,body{
+
+html, body {
     font-size: 20px;
-    height:100%;
-    width:100%;
-    font-family: 'Chilanka', cursive;
-    color:aliceblue;
+    height: 100%;
+    width: 100%;
+    font-family: monospace;
+    color: aliceblue;
     z-index: -1;
     overflow: hidden;
-    
 }
 
 body {
-    background: #1e3a8a;
+    background: #333333;
     /* background: url('images/background.jpg'); */
     object-fit: cover;
     background-repeat: no-repeat;
@@ -110,7 +110,7 @@ footer p a{
 @media screen and (max-width: 1200px) {
     body{
         /* background: url('images/background.jpg'); */
-        background: #1e3a8a;
+        background: #333333;
     }
     .sub-nav {
         object-fit: cover;

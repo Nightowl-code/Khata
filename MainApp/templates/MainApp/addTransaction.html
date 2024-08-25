@@ -11,7 +11,7 @@
 <div class="outer-container">
     <div class="container" id="container">
     <h1>Add Transaction</h1>
-    <form action="/addtransaction" method="POST" onsubmit="document.getElementById('id_party').disabled = false;document.getElementById('id_type').disabled = false;">
+    <form action="/{{action_link}}" method="POST" onsubmit="document.getElementById('id_party').disabled = false;document.getElementById('id_type').disabled = false;">
         {% csrf_token %}
         {% for a in form %}
             <p class="form-group">
@@ -23,4 +23,5 @@
     </form>
     </div>
 </div>
+
 {% endblock %}

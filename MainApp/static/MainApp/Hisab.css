@@ -1,0 +1,51 @@
+.outer-filter-box {
+    position: fixed;
+    display: none;
+    /* background-color: red; */
+    width: calc(100vw);
+    height: calc(100vh - 7rem);
+    top: 4rem;
+}
+.filters {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(9px);
+}
+td {
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+input, select {
+    padding: .2rem;
+    border: solid 1px;
+    font-size: 1rem;
+    /* border-block: none; */
+    background: transparent;
+    border-radius: .2rem;
+    color-scheme: dark;
+}
+
+.buttons {
+    width: 100%;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    gap: 4rem;
+    justify-content: center;
+}
+
+.filter-button>span {
+    padding: .6rem;
+    border: solid .2px;
+    border-radius: .2rem;
+    background: #00000052;
+    cursor: pointer;
+}
+
+.transaction-box.transactionlist-header {
+    justify-content: space-around;
+}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'login/login.css' %}" />
+<link rel="stylesheet" href="{% static 'MainApp/HisabView.css' %}" />
+
+{% endblock css %} {% block content %}
+<div class="outer-container">
+  <div class="container" id="container">
+    <h1>Transaction View</h1>
+    <div class="transaction-details">
+      <span class="transaction-date">Date: {{ transaction.date }}</span>
+      <span class="transaction-party-username">Username: {{ transaction.party.username }}</span>
+        <span class="transaction-party-name">Name: {{ transaction.party.first_name }}{{ transaction.party.last_name }}</span>
+        <span class="transaction-comment">Comment: {% if transaction.comment %}{{transaction.comment|truncatechars:80}}{% else %}No comment provided{% endif %}
+        </span>
+      <span class="transaction-amount">Amount:
+        <span
+          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{ transaction.amount }}</span>
+          </span>
+    </div>
+    
+     <div class="buttons-bottom">
+      {% if user.is_staff %}
+        <a href="/editTransaction/{{ transaction.id }}?next={{ previous_url }}" class="edit-hisab">Edit</a>
+        <a href="/deleteTransaction/{{ transaction.id }}?next={{ previous_url }}" class="delete-hisab">Delete</a>
+        {% endif %}
+     </div>
+   
+  </div>
+</div>
+
+<img class="return-back" src="{% static "images/arrow.png" %}" onclick="history.back();">
+</img>
+
+
+{% endblock content %}

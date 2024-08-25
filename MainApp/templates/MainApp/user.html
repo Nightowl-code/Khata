@@ -1,46 +1,74 @@
-{% extends 'base.html' %}
-
-{% load static %}
-{% block css %}
+{% extends 'base.html' %} {% load static %} {% block css %}
 <!-- <link rel="stylesheet" href="{% static 'login/login.css' %}"> -->
-<link rel="stylesheet" href="{% static 'MainApp/user.css' %}">
+<link rel="stylesheet" href="{% static 'MainApp/user.css' %}" />
 <!-- <script src="{% static 'jquery-3.7.1.min.js' %}"></script> -->
 
-{% endblock css %}
-{% block content %}
+{% endblock css %} {% block content %}
 <div class="outer-container">
-<div class="header">
+  <div class="display-container">
+    <div class="display-box">
+      <span class="display-name">Username : </span>
+      <span class="display-value">{{ user.username }}</span>
+    </div>
+    <div class="display-box">
+      <span class="display-name">Name : </span>
+      <span class="display-value"
+        >{{ user1.first_name }} {{ user1.last_name }}</span
+      >
+    </div>
+    <div class="display-box">
+      <span class="display-name">Amount : </span>
+      <span
+        class="display-value"
+        style="font-family:'Times New Roman', Times, serif;color:{% if user1.amount_type == 'credit' %}green{% else %}red{% endif %};"
+        >{{ user1.amount }}</span
+      >
+    </div>
+  </div>
+  {% if user.is_staff %}
+  <div class="header">
     <span class="editUser button">
-        <a href="/edituser/{{ user.username }}">Edit</a>
+      <a href="/edituser/{{ user1.username }}">Edit</a>
     </span>
     <span class="deleteUser button">
-        <a href="/deleteuser/{{ user.username }}">Delete</a>
+      <a
+        href="/deleteuser/{{ user1.username }}"
+        onclick="return confirm('Are you sure you want to delete user?');"
+        >Delete</a
+      >
     </span>
     <span class="addDebit button">
-        <a href="/addtransaction?party={{ user.username }}&type=debit">Add</a>
+      <a href="/addtransaction?party={{ user1.username }}&type=debit">Add</a>
     </span>
     <span class="addCredit button">
-        <a href="/addtransaction?party={{ user.username }}&type=credit">Add</a>
+      <a href="/addtransaction?party={{ user1.username }}&type=credit">Add</a>
     </span>
-</div>
-<div class="container" id="container">
+  </div>
+{% endif %}
+  <div class="container" id="container">
     <div class="transaction-box transactionlist-header">
-        <span class="transactionname">Date</span>
-        <span class="transaction-name">Comment</span>
-        <span class="amount">Amount</span>
+      <span class="transactionname">Date</span>
+      <span class="transaction-name">Comment</span>
+      <span class="amount">Amount</span>
     </div>
     <div class="transactionlist-container">
-    {% for transaction in transactions %}
-        <a class="transaction-box transaction" href="">
+      {% for transaction in transactions %}
+      <a class="transaction-box transaction" href="{%url 'MainApp:hisab' id=transaction.id %}">
         <span class="transactionname">{{ transaction.date }}</span>
-        <span class="transaction-name">{{transaction.comment|truncatechars:20}} </span>
-        <span class="amount" style="font-family:'Times New Roman', Times, serif;color:{% if user.amount_type == 'credit' %}green{% else %}red{% endif %};" >{{transaction.amount}}</span>  
-    </a>
-    {% endfor %}
-</div>
-</div>
+        <span class="transaction-name"
+          >{{transaction.comment|truncatechars:20}}
+        </span>
+        <span
+          class="amount"
+          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
+          >{{transaction.amount}}</span
+        >
+      </a>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
-<script type="text/javascript" src="{% static '/login/login.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static '/login/login.js' %}"></script> -->
 
 {% endblock content %}

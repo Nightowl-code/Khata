@@ -15,13 +15,13 @@ html,body{
     
 }
 
-body{
-    background: url('images/background.jpg');
+body {
+    background: #1e3a8a;
+    /* background: url('images/background.jpg'); */
     object-fit: cover;
     background-repeat: no-repeat;
     background-size: cover;
 }
-
 
 /* scroll bar */
 ::-webkit-scrollbar {
@@ -109,7 +109,8 @@ footer p a{
 
 @media screen and (max-width: 1200px) {
     body{
-        background: url('images/background.jpg');
+        /* background: url('images/background.jpg'); */
+        background: #1e3a8a;
     }
     .sub-nav {
         object-fit: cover;

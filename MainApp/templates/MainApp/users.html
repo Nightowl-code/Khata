@@ -4,6 +4,7 @@
 {% block css %}
 <!-- <link rel="stylesheet" href="{% static 'login/login.css' %}"> -->
 <link rel="stylesheet" href="{% static 'MainApp/users.css' %}">
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script>
 
 {% endblock css %}
 {% block content %}
@@ -35,12 +36,12 @@
         <span class="user-name">Name</span>
         <span class="amount">Amount</span>
     </div>
-    <div class="userlist-container">
+    <div class="userlist-container"  id="userlist-container">
     {% for user in users %}
         <a class="user-box user" href="{%url 'MainApp:user' id=user.username %}">
         <span class="username">{{ user.username }}</span>
         <span class="user-name">{{user.first_name}} {{user.last_name}}</span>
-        <span class="amount" style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{user.amount}}</span>  
+        <span class="amount" style="font-family:'Times New Roman', Times, serif;color:{% if user.amount_type == 'credit' %}green{% else %}red{% endif %};">{{user.amount}}</span>  
     </a>
     {% endfor %}
 </div>
@@ -48,5 +49,6 @@
 </div>
 
 <script type="text/javascript" src="{% static '/login/login.js' %}"></script>
+<script type="text/javascript" src="{% static '/MainApp/users.js' %}"></script>
 
 {% endblock content %}

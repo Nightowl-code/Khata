@@ -4,11 +4,11 @@ from rest_framework import serializers
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = ['username', 'first_name', 'last_name','amount','amount_type']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
-    party = serializers.CurrentUserDefault()
+    party = CustomUserSerializer(read_only=True)
     
     class Meta:
         model = Transaction

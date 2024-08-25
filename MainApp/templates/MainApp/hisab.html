@@ -1,0 +1,110 @@
+{% extends 'base.html' %} {% load static %} {% block css %}
+<!-- <link rel="stylesheet" href="{% static 'login/login.css' %}"> -->
+<link rel="stylesheet" href="{% static 'MainApp/user.css' %}" />
+<link rel="stylesheet" href="{% static 'MainApp/Hisab.css' %}" />
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+
+{% endblock css %} {% block content %}
+<div class="outer-container">
+  <div class="display-container">
+    <div class="display-box">
+      <span class="display-name">Welcome </span>
+      <span class="display-value">{{ user.username }}</span>
+    </div>
+    <div class="display-box">
+      <span class="display-name">Total Amount : </span>
+      <span
+        class="display-value"
+        style="font-family:'Times New Roman', Times, serif;color:{% if amount.type == 'credit' %}green{% else %}red{% endif %};"
+        >{{ amount.value }}</span
+      >
+    </div>
+  </div>
+  <div class="header">
+    
+    <span class="deleteUser button" id="filter-button">
+      <span >Filter</span>
+    </span>
+    <span class="addDebit button">
+      <a href="/addtransaction?type=debit">Add</a>
+    </span>
+    <span class="addCredit button">
+      <a href="/addtransaction?type=credit">Add</a>
+    </span>
+    <span class="editUser button">
+      <a href="/edituser/{{ user.username }}">Edit Profile</a>
+    </span>
+  </div>
+
+  <div class="container" id="container">
+    <div class="transaction-box transactionlist-header">
+      <span class="transactionname">Date</span>
+      <span class="transaction-name">Party</span>
+      <span class="amount">Amount</span>
+    </div>
+    <div class="transactionlist-container" id="transactionlist-container">
+      {% for transaction in transactions %}
+      <a class="transaction-box transaction" href="{%url 'MainApp:hisab' id=transaction.id %}">
+        <span class="transactionname">{{ transaction.date }}</span>
+        <span class="transaction-name"
+          >{{transaction.party.username}} [{{transaction.party.first_name}}]
+        </span>
+        <span
+          class="amount"
+          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
+          >{{transaction.amount}}</span
+        >
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="outer-filter-box" id="pop-up">
+<div class="filters">
+  <div class="inner-filters">
+    <table>
+  <div class="filter-section">
+    <tr>
+    <div class="filter-box">
+      <td><span class="filter-name">From</span></td>
+      <td><input type="date" class="filter-value" id="from-date" /></td>
+    </div></tr>
+    <tr>
+    <div class="filter-box">
+      <td><span class="filter-name">To</span></td>
+      <td><input type="date" class="filter-value" id="to-date" /></td>
+  </div>
+</div></tr>
+<div class="filter-section"><tr>
+  <div class="filter-box">
+    <td><span class="filter-name">Party</span></td>
+    <td><input type="text" class="filter-value" id="party" /></td>
+  </div></tr><tr>
+  <div class="filter-box">
+    <td><span class="filter-amount">Amount Lower Limit</span></td>
+   <td> <input type="number" class="filter-value" id="Lower_amount" /></td>
+</div></tr><tr>
+  <div class="filter-box">
+    <td><span class="filter-amount">Amount Upper Limit</span></td>
+    <td><input type="number" class="filter-value" id="Upper_amount" /></td>
+  </div></tr>
+</div>
+</table>
+</div>
+<div class="buttons">
+  <span class="filter-button" id="filter-button-clear">
+    <span>Back</span>
+  </span>
+  <span class="filter-button" id="filter-button-apply">
+    <span>Apply</span>
+  </span>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="{% static '/login/login.js' %}"></script>
+<script type="text/javascript" src="{% static '/MainApp/Hisab.js' %}"></script>
+
+
+{% endblock content %}

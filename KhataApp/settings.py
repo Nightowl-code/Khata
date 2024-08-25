@@ -23,11 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-upu8^d(1!=8a4g$_7@h7gcam0yfljif^ycu-jc4fij+ymxvp@("
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','0000manoj000.pythonanywhere.com']
 
-
+FACTOR = 2 
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,8 +41,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

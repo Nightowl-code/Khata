@@ -1,29 +1,49 @@
 from django import forms
 from . import models
-
-from django import forms
-from . import models
+from django.conf import settings
 
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = models.Transaction
         fields = ['type', 'amount', 'party', 'comment', 'date']
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),  # Date picker in the form
+            'date': forms.DateInput(attrs={'type': 'date'}),
         }
 
-    # check if prefill values are provided
     def __init__(self, *args, **kwargs):
+        super(TransactionForm, self).__init__(*args, **kwargs)
+
+        factor = getattr(settings, 'FACTOR', 0)
+
         if 'prefill' in kwargs:
             prefill = kwargs.pop('prefill')
-            super(TransactionForm, self).__init__(*args, **kwargs)
             for key, value in prefill.items():
                 self.fields[key].initial = value
                 self.fields[key].widget.attrs['disabled'] = True
-        else:
-            super(TransactionForm, self).__init__(*args, **kwargs)
-
         
+        if self.instance and self.instance.pk:
+            adjusted_amount = self.instance.amount * (10 ** factor)
+            # Override the initial value for the amount field
+            self.initial['amount'] = adjusted_amount
+            self.fields['amount'].initial = adjusted_amount
+
+            # Ensure that the field reflects this change by rendering it unbound
+            self.data = self.data.copy()
+            if 'amount' not in self.data:
+                self.data['amount'] = adjusted_amount
+
+    def save(self, commit=True):
+        instance = super(TransactionForm, self).save(commit=False)
+
+        factor = getattr(settings, 'FACTOR', 0)
+        if factor:
+            instance.amount = instance.amount / (10 ** factor)
+
+        if commit:
+            instance.save()
+
+        return instance
+
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)

@@ -58,7 +58,7 @@
                     <td>    <div class="transaction-date">{{transaction.date}}</div></td>
                     <td>    <div class="transaction-party">{{transaction.party.username}}</div></td>
                     <td>    <div class="transaction-amount"
-                            style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{transaction.amount}}</div></td>
+                            style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{transaction.amount|floatformat:2}}</div></td>
                     </tr>
                     {% endfor %}
                 </table>

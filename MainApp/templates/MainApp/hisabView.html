@@ -14,7 +14,7 @@
         </span>
       <span class="transaction-amount">Amount:
         <span
-          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{ transaction.amount }}</span>
+          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{ transaction.amount|floatformat:2 }}</span>
           </span>
     </div>
     

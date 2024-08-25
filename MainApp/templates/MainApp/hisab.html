@@ -16,7 +16,7 @@
       <span
         class="display-value"
         style="font-family:'Times New Roman', Times, serif;color:{% if amount.type == 'credit' %}green{% else %}red{% endif %};"
-        >{{ amount.value }}</span
+        >{{ amount.value|floatformat:2 }}</span
       >
     </div>
   </div>
@@ -52,7 +52,7 @@
         <span
           class="amount"
           style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
-          >{{transaction.amount}}</span
+          >{{transaction.amount|floatformat:2}}</span
         >
       </a>
       {% endfor %}

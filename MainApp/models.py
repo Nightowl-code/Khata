@@ -14,6 +14,7 @@ class Transaction(models.Model):
     party = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='transactions')
     date = models.DateField()
     comment = models.TextField(blank=True)
+    
 
     def __str__(self):
         sign = "" if self.type == "credit" else "-"

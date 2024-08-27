@@ -21,7 +21,7 @@
       <span
         class="display-value"
         style="font-family:'Times New Roman', Times, serif;color:{% if user1.amount_type == 'credit' %}green{% else %}red{% endif %};"
-        >{{ user1.amount }}</span
+        >{{ user1.amount|floatformat:2 }}</span
       >
     </div>
   </div>

@@ -7,6 +7,7 @@ from .serializers import CustomUserSerializer, TransactionSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Transaction, CustomUser
+from datetime import timedelta
 
 def home(request):
     if request.user.is_authenticated:
@@ -36,26 +37,10 @@ def home(request):
             }
             
             transaction = Transaction.objects.filter(party__is_staff=False)
-            credit_transaction = transaction.filter(type="credit")
-            debit_transaction = transaction.filter(type="debit")
-            # get the highest credit and debit transaction
-            if len(credit_transaction) == 0 or len(debit_transaction) == 0:
-                max_credit_transaction = None
-                max_debit_transaction = None
-            else:
-                max_credit_transaction = credit_transaction[0]
-                max_debit_transaction = debit_transaction[0]
-                for t in credit_transaction:
-                    if t.amount > max_credit_transaction.amount:
-                        max_credit_transaction = t
-                for t in debit_transaction:
-                    if t.amount > max_debit_transaction.amount:
-                        max_debit_transaction = t
-            
-            # last 10 transactions
-            current_transaction = transaction.order_by('-date')[:20]
+            # get transaction of last 1 week
+            current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7))
 
-            return render(request, "MainApp/home.html",{"amount": amount, "max_credit_user": max_credit_user, "max_debit_user": max_debit_user, "max_credit_transaction": max_credit_transaction, "max_debit_transaction": max_debit_transaction, "current_transaction": current_transaction})
+            return render(request, "MainApp/home.html",{"amount": amount,"current_transaction": current_transaction})
         else:
             return redirect("MainApp:user",request.user.username)
     else:
@@ -64,26 +49,52 @@ def home(request):
 def addTransaction(request):
     if not request.user.is_staff:
         return redirect("MainApp:home")
+    
+    # Ensure previous_url is never None
+    previous_url = request.GET.get('next', request.META.get('HTTP_REFERER'))
+    
+    # If previous_url is still None, assign a default value
+    if previous_url is None:
+        previous_url = "/default-redirect-url/"  # Replace with an appropriate default
+
     if request.method == "POST":
         form = TransactionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("MainApp:user",form.cleaned_data["party"].username)
+            if request.POST.get('submit') == 'Add Another Transaction':
+                # Pre-fill the party field with the previously entered value
+                form = TransactionForm(initial={"party": form.cleaned_data['party'].id})
+                return render(request, "MainApp/addTransaction.html", {
+                    "form": form,
+                    "action_link": "addtransaction" + "?next=" + previous_url
+                })
+            else:
+                return redirect("MainApp:user", form.cleaned_data["party"].username)
         else:
-           form = TransactionForm()
-           return render(request, "MainApp/addTransaction.html", {"form": form,"action_link":"addtransaction"})
+            # Re-render the form with errors and pass the previous_url
+            return render(request, "MainApp/addTransaction.html", {
+                "form": form,
+                "action_link": "addtransaction" + "?next=" + previous_url
+            })
     else:
-        previous_url = request.META.get('HTTP_REFERER')
         party = request.GET.get("party")
         transaction_type = request.GET.get("type")
         if party and transaction_type:
-            user=CustomUser.objects.get(username=party)
-            form = TransactionForm(prefill={"party": user.id, "type": transaction_type})
+            user = CustomUser.objects.get(username=party)
+            form = TransactionForm(initial={"party": user.id, "type": transaction_type})
         elif transaction_type:
-            form = TransactionForm(prefill={"type": transaction_type})
+            form = TransactionForm(initial={"type": transaction_type})
+        elif party:
+            user = CustomUser.objects.get(username=party)
+            form = TransactionForm(initial={"party": user.id})
         else:
             form = TransactionForm()
-        return render(request, "MainApp/addTransaction.html", {"form": form,"action_link":"addtransaction"+"?next="+previous_url})
+        
+        return render(request, "MainApp/addTransaction.html", {
+            "form": form,
+            "action_link": "addtransaction" + "?next=" + previous_url
+        })
+
 
 @api_view(['GET', 'POST'])
 def users(request):

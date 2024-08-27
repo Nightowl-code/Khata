@@ -11,42 +11,7 @@
 {% block content %}
 <div class="outer-container">
     <div class="container" id="container">
-        <div class="row">
-            <div class="user-container">
-                <div class="welcome">Welcome {{user.first_name}} {{user.last_name}}</div>
-                <div class="amount"
-                    style="font-family:'Times New Roman', Times, serif;color:{% if amount.type == 'credit' %}green{% else %}red{% endif %};">
-                    {{amount.value}}</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="account-stats">
-                <h4 class="header account-stats-header">Top Account</h4>
-                <table>
-                <tr><div class="highest-credit">
-                    <td><span class="username-highest-credit">{{max_credit_user.username}}</span></td>
-                    <td><span class="amount-highest-credit" style="font-family:'Times New Roman', Times, serif;color:{% if max_credit_user.amount_type == 'credit' %}green{% else %}red{% endif %};">{{max_credit_user.amount}}</span></td>
-                </div></tr>
-                <tr><div class="highest-debit">
-                    <td><span class="username-highest-debit">{{max_debit_user.username}}</span></td>
-                    <td><span class="amount-highest-debit" style="font-family:'Times New Roman', Times, serif;color:{% if max_debit_user.amount_type == 'credit' %}green{% else %}red{% endif %};">{{max_debit_user.amount}}</span></td>
-                </div></tr>
-            </table>
-            </div>
-            <div class="transaction-stats">
-                <h4 class="header transaction-stats-header">Top Transactions</h4>
-                <table>
-                <tr><div class="highest-credit">
-                    <td><span class="username-highest-credit">{{max_credit_transaction.party.username}}</span></td>
-                    <td><span class="amount-highest-credit" style="font-family:'Times New Roman', Times, serif;color:{% if max_credit_transaction.type == 'credit' %}green{% else %}red{% endif %};">{{max_credit_transaction.amount}}</span></td>
-                </div></tr>
-                <tr><div class="highest-debit">
-                    <td><span class="username-highest-debit">{{max_debit_transaction.party.username}}</span></td>
-                    <td><span class="amount-highest-debit" style="font-family:'Times New Roman', Times, serif;color:{% if max_debit_transaction.type == 'credit' %}green{% else %}red{% endif %};">{{max_debit_transaction.amount}}</span></td>
-                </div></tr>
-                </table>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="transaction-container">
                 <h4 class="transaction-header">Recent Transactions</h4>

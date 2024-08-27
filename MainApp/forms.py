@@ -1,6 +1,7 @@
 from django import forms
 from . import models
 from django.conf import settings
+from django.utils.timezone import now
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -25,16 +26,30 @@ class TransactionForm(forms.ModelForm):
                     self.fields[key].initial = value
                     self.fields[key].widget.attrs['disabled'] = True  # Remember, disabled fields are not submitted
 
+        # Ensure date defaults to today's date if not provided
+        if not self.fields['date'].initial:
+            self.fields['date'].initial = now().date()
+
         if self.instance and self.instance.pk:
             # Adjust the amount according to the factor
             adjusted_amount = self.instance.amount * (10 ** factor)
             self.initial['amount'] = adjusted_amount
             self.fields['amount'].initial = adjusted_amount
 
-            # Ensure that the field reflects this change by rendering it unbound
+            # Update the data if amount is not already present (to ensure form shows the adjusted value)
             self.data = self.data.copy()
             if 'amount' not in self.data:
                 self.data['amount'] = adjusted_amount
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # Ensure that disabled fields are not lost; they need to be re-included in cleaned_data
+        for field_name in self.fields:
+            if self.fields[field_name].widget.attrs.get('disabled'):
+                cleaned_data[field_name] = self.initial.get(field_name)
+
+        return cleaned_data
 
     def save(self, commit=True):
         instance = super(TransactionForm, self).save(commit=False)

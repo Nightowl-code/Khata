@@ -10,18 +10,22 @@
 {% block content %}
 <div class="outer-container">
     <div class="container" id="container">
-    <h1>Add Transaction</h1>
-    <form action="/{{action_link}}" method="POST" onsubmit="document.getElementById('id_party').disabled = false;document.getElementById('id_type').disabled = false;">
-        {% csrf_token %}
-        {% for a in form %}
-            <p class="form-group">
-                <label for="{{a.id_for_label}}">{{a.label}}</label>
-                {{a}}
-            </p>
-        {% endfor %}
-        <input type="submit" value="Add Transaction">
-    </form>
+        <h1>Add Transaction</h1>
+        <form action="/{{action_link}}" method="POST" onsubmit="document.getElementById('id_party').disabled = false;document.getElementById('id_type').disabled = false;">
+            {% csrf_token %}
+            <div class="form-body">
+            {% for a in form %}
+                <p class="form-group">
+                    <label for="{{a.id_for_label}}">{{a.label}}</label>
+                    {{a}}
+                </p>
+            {% endfor %}
+        </div>
+            <div class="form-actions">
+                <input type="submit" name="submit" value="Add Transaction">
+                <input type="submit" name="submit" value="Add Another Transaction">
+            </div>
+        </form>
     </div>
 </div>
-
 {% endblock %}

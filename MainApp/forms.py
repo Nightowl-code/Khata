@@ -32,7 +32,7 @@ class TransactionForm(forms.ModelForm):
 
         if self.instance and self.instance.pk:
             # Adjust the amount according to the factor
-            adjusted_amount = self.instance.amount * (10 ** factor)
+            adjusted_amount = round(self.instance.amount * (10 ** factor),4)
             self.initial['amount'] = adjusted_amount
             self.fields['amount'].initial = adjusted_amount
 
@@ -57,7 +57,7 @@ class TransactionForm(forms.ModelForm):
         # Re-adjust amount before saving if a factor is used
         factor = getattr(settings, 'FACTOR', 0)
         if factor:
-            instance.amount = instance.amount / (10 ** factor)
+            instance.amount = round(instance.amount / (10 ** factor),4)
 
         if commit:
             instance.save()

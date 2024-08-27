@@ -132,7 +132,7 @@ def user(request, id):
     if not request.user.is_staff and request.user.username != id:
         return redirect("MainApp:home")
     user = CustomUser.objects.get(username=id)
-    transactions = Transaction.objects.filter(party=user)
+    transactions = Transaction.objects.filter(party=user).order_by('-sequence_number')
     return render(request, "MainApp/user.html", {"user1": user, "transactions": transactions})
 
 def editUser(request,id):
@@ -165,7 +165,8 @@ def hisab(request):
     if not request.user.is_staff:
         return redirect("MainApp:home")
     transactions = Transaction.objects.filter(party__is_staff=False)
-    transactions = transactions.order_by('date')
+    transactions = transactions.order_by('-sequence_number')
+    users = CustomUser.objects.filter(is_staff=False)
     if request.method == "POST":
         transactions = TransactionSerializer(transactions, many=True)
         # print(transactions.data)
@@ -183,7 +184,7 @@ def hisab(request):
         # print(amount)
         
         transactions = TransactionSerializer(transactions, many=True)
-        return render(request, "MainApp/hisab.html", {"transactions": transactions.data, "amount": amount})
+        return render(request, "MainApp/hisab.html", {"transactions": transactions.data, "amount": amount,'parties':users})
 
 def hisabView(request,id):
     transaction = Transaction.objects.get(id=id)

@@ -50,6 +50,7 @@
       <span class="transactionname">Date</span>
       <span class="transaction-name">Comment</span>
       <span class="amount">Amount</span>
+      <span class="current-amount">Running total</span>
     </div>
     <div class="transactionlist-container">
       {% for transaction in transactions %}
@@ -62,6 +63,11 @@
           class="amount"
           style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
           >{{transaction.amount|floatformat:2}}</span
+        >
+        <span
+          class="amount"
+          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.running_total >= 0 %}green{% else %}red{% endif %};"
+          >{{transaction.running_total|floatformat:2}}</span
         >
       </a>
       {% endfor %}

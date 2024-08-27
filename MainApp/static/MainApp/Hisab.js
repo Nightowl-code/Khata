@@ -15,7 +15,7 @@ async function getTransaction() {
         // console.log("Success:", TransactionData);
     } catch (error) {
         alert("Error: " + error);
-        UserData = null; // Set to null in case of an error
+        TransactionData = null; // Set to null in case of an error
     }
 }
 
@@ -94,20 +94,12 @@ document.getElementById('filter-button-apply').onclick = function() {
             return item.date <= todate;
         });
     }
-    // check if part is present in party['username'] or party['first_name'] or party['last_name']
-    var searchValue = party.toLowerCase();
 
     // Filter the data based on the search value
-    if (searchValue !== '') {
-        filteredData=filteredData.filter(function(item) {
-            // Normalize the party attributes to lowercase for comparison
-            var username = item.party.username.toLowerCase();
-            var firstName = item.party.first_name.toLowerCase();
-            var lastName = item.party.last_name.toLowerCase();
-
-            return username.includes(searchValue) ||
-                   firstName.includes(searchValue) ||
-                   lastName.includes(searchValue);
+    if (party !== '') {
+        // match party with usernames
+        filteredData = filteredData.filter(function(item) {
+            return item.party.username === party;
         });
     }
     if(upperLimit != '') {

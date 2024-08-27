@@ -16,6 +16,8 @@
         <span
           style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{ transaction.amount|floatformat:2 }}</span>
           </span>
+          <span class="running-total">Running Total:</span>
+          <span class="running-total-amount" style="font-family:'Times New Roman', Times, serif;color:{% if transaction.running_total >= 0 %}green{% else %}red{% endif %};">{{ transaction.running_total|floatformat:2 }}</span>
     </div>
     
      <div class="buttons-bottom">

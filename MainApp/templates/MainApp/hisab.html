@@ -35,6 +35,7 @@
       <span class="transactionname">Date</span>
       <span class="transaction-name">Party</span>
       <span class="amount">Amount</span>
+      <span class="running-total">Running Total</span>
     </div>
     <div class="transactionlist-container" id="transactionlist-container">
       {% for transaction in transactions %}
@@ -48,6 +49,7 @@
           style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
           >{{transaction.amount|floatformat:2}}</span
         >
+        <span class="running-total" style="font-family:'Times New Roman', Times, serif;color:{% if transaction.running_total >= 0 %}green{% else %}red{% endif %};">{{ transaction.running_total|floatformat:2 }}</span>
       </a>
       {% endfor %}
     </div>
@@ -73,7 +75,12 @@
 <div class="filter-section"><tr>
   <div class="filter-box">
     <td><span class="filter-name">Party</span></td>
-    <td><input type="text" class="filter-value" id="party" /></td>
+    <td><select class="filter-value" id="party" >
+      <option value="">All</option>
+      {% for party in parties %}
+      <option value="{{party.username}}">{{party.username}}</option>
+      {% endfor %}
+    </select></td>
   </div></tr><tr>
   <div class="filter-box">
     <td><span class="filter-amount">Amount Lower Limit</span></td>

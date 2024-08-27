@@ -68,7 +68,7 @@ class Transaction(models.Model):
     date = models.DateField()
     comment = models.TextField(blank=True)
     running_total = models.FloatField(default=0)
-    sequence_number = models.FloatField(unique=True, blank=True)  
+    sequence_number = models.FloatField()  
 
     class Meta:
         # Ensure sequence_number is unique for each party

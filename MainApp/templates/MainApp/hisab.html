@@ -41,7 +41,7 @@
       <a class="transaction-box transaction" href="">
         <span class="user-username">{{party.username}}</span>
         <span class="user-name">{{party.first_name}} {{party.last_name}}</span>
-        <span class="user-amount" style="font-family:'Times New Roman', Times, serif;color:{% if party.amount_type == 'credit' %}green{% else %}red{% endif %};">{{party.amount}}</span>
+        <span class="user-amount" style="font-family:'Times New Roman', Times, serif;color:{% if party.amount_type == 'credit' %}green{% else %}red{% endif %};">{{party.amount|floatformat:2 }}</span>
         </a>
       {% endfor %}
     </div>

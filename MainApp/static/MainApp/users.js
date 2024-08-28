@@ -64,7 +64,7 @@ function updateUserList(users) {
         amountSpan.className = 'amount';
         amountSpan.style.fontFamily = "'Times New Roman', Times, serif";
         amountSpan.style.color = user.amount_type === 'credit' ? 'green' : 'red';
-        amountSpan.textContent = Super_user? user.amount: "---";
+        amountSpan.textContent = Super_user? parseFloat(user.amount.toFixed(4)): "---";
         userBox.appendChild(amountSpan);
 
         // Append the user box to the container

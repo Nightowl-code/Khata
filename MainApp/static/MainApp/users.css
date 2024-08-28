@@ -65,7 +65,7 @@ div#container {
 
 .userlist-header {
     height: 2rem;
-    background: #00000093;
+    background: #00000047;
     border-radius: .2rem;
 }
 .userlist-container {
@@ -74,7 +74,7 @@ div#container {
     gap: 1rem;
     padding: 1rem;
     border-radius: .2rem;
-    background: #0000004d;
+    background: #00000070;
     /* height: 100px; */
     overflow: auto;
     max-height: -webkit-fill-available;
@@ -82,14 +82,14 @@ div#container {
 .user-box.user {
     /* align-items: center; */
     padding: .5rem;
-    background: #0000007e;
+    background: #ffffff47;
     border-radius: .2rem;
 
     /* backdrop-filter: blur(10px); */
 }
 
 .user-box.user:hover {
-    background: #000000b3;
+    /* background: #000000b3; */
     cursor: pointer;
     transform: scale(1.01);
 }

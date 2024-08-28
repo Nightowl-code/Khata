@@ -37,11 +37,11 @@
         <span class="amount">Amount</span>
     </div>
     <div class="userlist-container"  id="userlist-container">
-    {% for user in users %}
+    {% for user1 in users %}
         <a class="user-box user" href="{%url 'MainApp:user' id=user.username %}">
-        <span class="username">{{ user.username }}</span>
-        <span class="user-name">{{user.first_name}} {{user.last_name}}</span>
-        <span class="amount" style="font-family:'Times New Roman', Times, serif;color:{% if user.amount_type == 'credit' %}green{% else %}red{% endif %};">{{user.amount}}</span>  
+        <span class="username">{{ user1.username }}</span>
+        <span class="user-name">{{user1.first_name}} {{user1.last_name}}</span>
+        <span class="amount" style="font-family:'Times New Roman', Times, serif;color:{% if user.amount_type == 'credit' %}green{% else %}red{% endif %};">{% if user.is_superuser %} {{user1.amount}} {% else %} ---- {% endif %}</span>  
     </a>
     {% endfor %}
 </div>

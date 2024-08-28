@@ -90,14 +90,13 @@ div#container {
 .transaction-box.transaction {
     /* align-items: center; */
     padding: .5rem;
-    background: #0000007e;
+    background: #ffffff47;
     border-radius: .2rem;
-
     /* backdrop-filter: blur(10px); */
 }
 
 .transaction-box.transaction:hover {
-    background: #000000b3;
+    /* background: rgba(7, 7, 7, 0.702); */
     cursor: pointer;
     transform: scale(1.01);
 }

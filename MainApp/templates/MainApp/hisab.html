@@ -32,25 +32,17 @@
 
   <div class="container" id="container">
     <div class="transaction-box transactionlist-header">
-      <span class="transactionname">Date</span>
-      <span class="transaction-name">Party</span>
+      <span class="transactionname">Username</span>
+      <span class="transaction-name">Name</span>
       <span class="amount">Amount</span>
-      <span class="running-total">Running Total</span>
     </div>
     <div class="transactionlist-container" id="transactionlist-container">
-      {% for transaction in transactions %}
-      <a class="transaction-box transaction" href="{%url 'MainApp:hisab' id=transaction.id %}">
-        <span class="transactionname">{{ transaction.date }}</span>
-        <span class="transaction-name"
-          >{{transaction.party.username}} [{{transaction.party.first_name}}]
-        </span>
-        <span
-          class="amount"
-          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
-          >{{transaction.amount|floatformat:2}}</span
-        >
-        <span class="running-total" style="font-family:'Times New Roman', Times, serif;color:{% if transaction.running_total >= 0 %}green{% else %}red{% endif %};">{{ transaction.running_total|floatformat:2 }}</span>
-      </a>
+      {% for party in parties %}
+      <a class="transaction-box transaction" href="">
+        <span class="user-username">{{party.username}}</span>
+        <span class="user-name">{{party.first_name}} {{party.last_name}}</span>
+        <span class="user-amount" style="font-family:'Times New Roman', Times, serif;color:{% if party.amount_type == 'credit' %}green{% else %}red{% endif %};">{{party.amount}}</span>
+        </a>
       {% endfor %}
     </div>
   </div>
@@ -61,17 +53,6 @@
   <div class="inner-filters">
     <table>
   <div class="filter-section">
-    <tr>
-    <div class="filter-box">
-      <td><span class="filter-name">From</span></td>
-      <td><input type="date" class="filter-value" id="from-date" /></td>
-    </div></tr>
-    <tr>
-    <div class="filter-box">
-      <td><span class="filter-name">To</span></td>
-      <td><input type="date" class="filter-value" id="to-date" /></td>
-  </div>
-</div></tr>
 <div class="filter-section"><tr>
   <div class="filter-box">
     <td><span class="filter-name">Party</span></td>

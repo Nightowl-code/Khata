@@ -1,4 +1,4 @@
-TransactionData = null; // Variable to store the user data
+UserData = null; // Variable to store the user data
 
 async function getTransaction() {
     console.log("Getting users");
@@ -6,7 +6,7 @@ async function getTransaction() {
     setRequestHeader(); // Set the CSRF token in the header
 
     try {
-        TransactionData = await $.ajax({
+        UserData = await $.ajax({
             dataType: 'json',
             type: 'POST',
             url: "/hisab",
@@ -15,14 +15,14 @@ async function getTransaction() {
         // console.log("Success:", TransactionData);
     } catch (error) {
         alert("Error: " + error);
-        TransactionData = null; // Set to null in case of an error
+        UserData = null; // Set to null in case of an error
     }
 }
 
 // Call the function to fetch and store the data
 (async () => {
     await getTransaction();
-    console.log(TransactionData); 
+    console.log(UserData); 
 })();
 
 
@@ -30,22 +30,21 @@ function updateTransactionList(filteredData) {
     var container = document.getElementById('transactionlist-container');
     container.innerHTML = ''; // Clear existing content
 
-    filteredData.forEach(function(transaction) {
+    filteredData.forEach(function(user) {
         var transactionElement = document.createElement('a');
         transactionElement.className = 'transaction-box transaction';
-        transactionElement.href = `/hisab/${transaction.id}`; // Adjust URL as needed
+        // transactionElement.href = `/hisab/${transaction.id}`; // Adjust URL as needed
 
         transactionElement.innerHTML = `
-            <span class="transactionname">${transaction.date}</span>
-            <span class="transaction-name">
-                ${transaction.party.username} [${transaction.party.first_name}]
+            <span class="user-username">${user.username}</span>
+            <span class="user-name">
+                ${user.first_name} ${user.last_name}
             </span>
-            <span class="amount"
-                style="font-family:'Times New Roman', Times, serif; color:${transaction.type === 'credit' ? 'green' : 'red'};">
-                ${transaction.amount}
+            <span class="user-amount"
+                style="font-family:'Times New Roman', Times, serif; color:${user.amount_type === 'credit' ? 'green' : 'red'};">
+                ${parseFloat(user.amount.toFixed(4))}
             </span>
         `;
-
         container.appendChild(transactionElement);
     });
 }
@@ -61,20 +60,15 @@ document.getElementById('filter-button-clear').onclick = function() {
 }
 
 document.getElementById('filter-button-apply').onclick = function() {
-    var fromdate = document.getElementById('from-date').value;
-    var todate = document.getElementById('to-date').value;
+    filteredData = UserData;
     var party = document.getElementById('party').value;
     var upperLimit = document.getElementById('Upper_amount').value;
     var lowerLimit = document.getElementById('Lower_amount').value;
 
-    if(fromdate == '' && todate == '' && party == '' && upperLimit == '' && lowerLimit == '') {
-        updateTransactionList(TransactionData);
+    if(party == '' && upperLimit == '' && lowerLimit == '') {
+        updateTransactionList(UserData);
         var filter_box = document.getElementById('pop-up');
         filter_box.style.display = 'none';
-        return;
-    }
-    if(fromdate != '' && todate != '' && fromdate > todate) {
-        alert('From date should be less than To date');
         return;
     }
     if(upperLimit != '' && lowerLimit != '' && upperLimit < lowerLimit) {
@@ -82,24 +76,11 @@ document.getElementById('filter-button-apply').onclick = function() {
         return;
     }
 
-    // use the TransactionDate to filter the data
-    var filteredData = TransactionData;
-    if(fromdate != '') {
-        filteredData = filteredData.filter(function(item) {
-            return item.date >= fromdate;
-        });
-    }
-    if(todate != '') {
-        filteredData = filteredData.filter(function(item) {
-            return item.date <= todate;
-        });
-    }
-
     // Filter the data based on the search value
     if (party !== '') {
         // match party with usernames
         filteredData = filteredData.filter(function(item) {
-            return item.party.username === party;
+            return item.username === party;
         });
     }
     if(upperLimit != '') {

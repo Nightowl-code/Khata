@@ -2,7 +2,7 @@
     margin:0px;
     padding:0px;
     box-sizing: border-box;
-    color: aliceblue;
+    color: rgb(0, 1, 2);
 }
 
 html, body {
@@ -10,13 +10,13 @@ html, body {
     height: 100%;
     width: 100%;
     font-family: monospace;
-    color: aliceblue;
+    color: rgb(0, 1, 2);
     z-index: -1;
     overflow: hidden;
 }
 
 body {
-    background: #333333;
+    background: #ffffff;
     /* background: url('images/background.jpg'); */
     object-fit: cover;
     background-repeat: no-repeat;
@@ -46,12 +46,12 @@ body {
 nav {
     margin-bottom: 2rem;
     height: 4rem;
-    background-color: #090c0cc7;
+    background-color: #9d9d9d8a;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: solid 2px black;
-    background: #0000008a;
+    background: #9d9d9d8a;
     /* backdrop-filter: blur(20px); */
 }
 nav div{
@@ -78,7 +78,7 @@ footer {
     bottom: 0px;
     background: transparent;
     width: 100%;
-    background-color: #090c0cc7;
+    background-color: #9d9d9d8a;
     height: 3rem;
     display: flex;
     justify-content: center;
@@ -86,7 +86,7 @@ footer {
 }
 
 footer p a{
-    color:white;
+    color:rgb(0, 0, 0);
     text-decoration: none;
 }
 
@@ -110,7 +110,7 @@ footer p a{
 @media screen and (max-width: 1200px) {
     body{
         /* background: url('images/background.jpg'); */
-        background: #333333;
+        background: #ffffff;
     }
     .sub-nav {
         object-fit: cover;

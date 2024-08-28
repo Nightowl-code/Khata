@@ -11,14 +11,12 @@
 {% block content %}
 <div class="outer-container">
     <div class="container" id="container">
-        
         <div class="row">
             <div class="transaction-container">
                 <h4 class="transaction-header">Recent Transactions</h4>
                 <div class="transaction-list">
                     <table>
                     {% for transaction in current_transaction %}
-                    
                     <tr class="transaction">
                     <td>    <div class="transaction-date">{{transaction.date}}</div></td>
                     <td>    <div class="transaction-party">{{transaction.party.username}}</div></td>

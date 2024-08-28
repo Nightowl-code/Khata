@@ -11,8 +11,8 @@ from datetime import timedelta
 
 def home(request):
     if request.user.is_authenticated:
-        if request.user.is_staff:
-            users = CustomUser.objects.filter(is_staff=False)
+        if request.user.is_superuser:
+            users = CustomUser.objects.filter(is_superuser=False)
             # add amount of all users.amount in amount variable
             # user with highest credit amount and highest debit amount
             # if users has no 
@@ -36,11 +36,13 @@ def home(request):
                 "type": "credit" if amount >= 0 else "debit"
             }
             
-            transaction = Transaction.objects.filter(party__is_staff=False)
+            transaction = Transaction.objects.filter(party__is_superuser=False)
             # get transaction of last 1 week
             current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7))
 
             return render(request, "MainApp/home.html",{"amount": amount,"current_transaction": current_transaction})
+        elif request.user.is_staff:
+            return redirect("MainApp:users")
         else:
             return redirect("MainApp:user",request.user.username)
     else:
@@ -101,15 +103,15 @@ def users(request):
     if not request.user.is_staff:
         return redirect("MainApp:home")
     if request.method == "GET":
-        users = CustomUser.objects.filter(is_staff=False)
+        users = CustomUser.objects.filter(is_superuser=False)
         # oder users by username
         users = users.order_by('username')
         serializer = CustomUserSerializer(users, many=True)
         return render(request, "MainApp/users.html", {"users": serializer.data})
     elif request.method == "POST":
-        users = CustomUser.objects.filter(is_staff=False)
+        users = CustomUser.objects.filter(is_superuser=False)
         user_serializer = CustomUserSerializer(users, many=True)
-        return Response(user_serializer.data)
+        return Response({"users_data":user_serializer.data,"user_type":request.user.is_superuser})
     
 
 def createUser(request):
@@ -143,7 +145,7 @@ def editUser(request,id):
         form = UserForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            if request.user.is_staff:
+            if request.user.is_superuser:
                 return redirect("MainApp:users")
             else:
                 return redirect("MainApp:home")
@@ -162,17 +164,18 @@ def deleteUser(request,id):
 
 @api_view(['GET', 'POST'])
 def hisab(request):
-    if not request.user.is_staff:
+    if not request.user.is_superuser:
         return redirect("MainApp:home")
-    transactions = Transaction.objects.filter(party__is_staff=False)
+    transactions = Transaction.objects.filter(party__is_superuser=False)
     transactions = transactions.order_by('-sequence_number')
-    users = CustomUser.objects.filter(is_staff=False)
+    users = CustomUser.objects.filter(is_superuser=False).order_by('-amount')
+    users_data = CustomUserSerializer(users, many=True)
     if request.method == "POST":
-        transactions = TransactionSerializer(transactions, many=True)
+        # transactions = TransactionSerializer(transactions, many=True)
         # print(transactions.data)
-        return Response(transactions.data)
+        return Response(users_data.data)
     else:
-        users = CustomUser.objects.filter(is_staff=False)
+        users = CustomUser.objects.filter(is_superuser=False)
         # add amount of all users.amount in amount variable
         amount = 0
         for user in users:
@@ -184,7 +187,7 @@ def hisab(request):
         # print(amount)
         
         transactions = TransactionSerializer(transactions, many=True)
-        return render(request, "MainApp/hisab.html", {"transactions": transactions.data, "amount": amount,'parties':users})
+        return render(request, "MainApp/hisab.html", {"amount": amount,'parties':users_data.data})
 
 def hisabView(request,id):
     transaction = Transaction.objects.get(id=id)

@@ -1,4 +1,5 @@
 UserData = null; // Variable to store the user data
+Super_user = false; // Variable to store the user type
 
 async function getUsers() {
     console.log("Getting users");
@@ -6,12 +7,15 @@ async function getUsers() {
     setRequestHeader(); // Set the CSRF token in the header
 
     try {
-        UserData = await $.ajax({
+        Data = await $.ajax({
             dataType: 'json',
             type: 'POST',
             url: "/users",
             data: {},
         });
+        // console.log("Success:", UserData);
+        UserData = Data['users_data'];
+        Super_user = Data['user_type'];
         // console.log("Success:", UserData);
     } catch (error) {
         alert("Error: " + error);
@@ -22,7 +26,8 @@ async function getUsers() {
 // Call the function to fetch and store the data
 (async () => {
     await getUsers();
-    // console.log(UserData); 
+    console.log(UserData); 
+    console.log(Super_user);
 })();
 
 
@@ -59,7 +64,7 @@ function updateUserList(users) {
         amountSpan.className = 'amount';
         amountSpan.style.fontFamily = "'Times New Roman', Times, serif";
         amountSpan.style.color = user.amount_type === 'credit' ? 'green' : 'red';
-        amountSpan.textContent = user.amount;
+        amountSpan.textContent = Super_user? user.amount: "---";
         userBox.appendChild(amountSpan);
 
         // Append the user box to the container

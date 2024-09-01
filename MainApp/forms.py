@@ -65,32 +65,71 @@ class TransactionForm(forms.ModelForm):
         return instance
 
 
+
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
-    active = forms.BooleanField(required=False, label="Is Active")  # Add the active field
+    update_password = forms.BooleanField(required=False, label="Change Password", initial=False)
+    password = forms.CharField(widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password", required=False)
+
+    USER_TYPE_CHOICES = [
+        ('normal', 'Normal User'),
+        ('staff', 'Staff'),
+        ('superuser', 'Superuser')
+    ]
+
+    user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES, label="User Role")
 
     class Meta:
         model = models.CustomUser
-        fields = ['username', 'first_name', 'last_name','active', 'password']  # Include the active field
+        fields = ['username', 'first_name', 'last_name', 'is_active', 'update_password', 'password', 'user_type']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(UserForm, self).__init__(*args, **kwargs)
+        
+        if not user or not user.is_superuser:
+            # Hide user_type dropdown if the current user is not a superuser
+            self.fields.pop('user_type')
 
     def clean(self):
         cleaned_data = super().clean()
+        update_password = cleaned_data.get("update_password")
         password = cleaned_data.get("password")
         password2 = cleaned_data.get("password2")
 
-        if password and password2 and password != password2:
-            raise forms.ValidationError("Passwords don't match")
-
+        if update_password:
+            if not password:
+                raise forms.ValidationError("Please enter the new password.")
+            if password != password2:
+                raise forms.ValidationError("Passwords don't match")
         return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        password = self.cleaned_data["password"]
-        user.set_password(password)  # Hash the password
+        update_password = self.cleaned_data.get("update_password")
+
+        if update_password:
+            password = self.cleaned_data["password"]
+            user.set_password(password)
+        
+        user.is_active = self.cleaned_data['is_active']
+        
+        if 'user_type' in self.cleaned_data:
+            user_type = self.cleaned_data['user_type']
+            if user_type == 'superuser':
+                user.is_superuser = True
+                user.is_staff = True
+            elif user_type == 'staff':
+                user.is_superuser = False
+                user.is_staff = True
+            else:
+                user.is_superuser = False
+                user.is_staff = False
+
         if commit:
             user.save()
         return user
+
 
 
         

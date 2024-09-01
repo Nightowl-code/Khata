@@ -24,6 +24,10 @@
     list-style-type: none;
     font-family: fangsong;
 }
+input#id_update_password {
+    width: 1rem;
+    font-size: .5rem;
+}
 .container {
     min-width: 500px;
     box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.2);
@@ -50,25 +54,62 @@
     /* background: red; */
     flex-direction: column;
 }
-input#id_active {
+input#id_is_active {
     font-size: .5rem;
     width: 1rem;
     align-items: flex-end;
+}
+form{
+    width:100%;
 }
 </style>
 {% endblock css %}
 {% block content %}
 <div class="outer-container">
     <div class="container" id="container">
-    <h1>Add User</h1>
-    <div class="error" id="error">{{error}}</div>
-    <form action="/{{action}}" method="POST">
-        {% csrf_token %}
-        <div class="form-box">
-        {{ form.as_p }}
-    </div>
-        <input type="submit" value="Add User">
-    </form>
+        <h1>{{ action|title }} User</h1>
+        {% if error %}
+            <div class="error" id="error">{{ error }}</div>
+        {% endif %}
+        <form action="/{{ action }}" method="POST">
+            {% csrf_token %}
+            <div class="form-box">
+                {{ form.username.label_tag }} {{ form.username }}
+                {{ form.first_name.label_tag }} {{ form.first_name }}
+                {{ form.last_name.label_tag }} {{ form.last_name }}
+                {{ form.is_active.label_tag }} {{ form.is_active }}
+
+                {% if form.user_type %}
+                    {{ form.user_type.label_tag }} {{ form.user_type }}
+                {% endif %}
+
+                {{ form.update_password.label_tag }} {{ form.update_password }}
+                <div id="password-fields" style="display: none;">
+                    {{ form.password.label_tag }} {{ form.password }}
+                    {{ form.password2.label_tag }} {{ form.password2 }}
+                </div>
+            </div>
+            <input type="submit" value="{{ action|title }} User">
+        </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const updatePasswordCheckbox = document.querySelector('#id_update_password');
+        const passwordFields = document.querySelector('#password-fields');
+
+        updatePasswordCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                passwordFields.style.display = 'block';
+            } else {
+                passwordFields.style.display = 'none';
+            }
+        });
+
+        if (updatePasswordCheckbox.checked) {
+            passwordFields.style.display = 'block';
+        }
+    });
+</script>
 {% endblock %}

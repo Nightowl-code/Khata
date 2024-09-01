@@ -33,7 +33,7 @@ async function getUsers() {
 
 
 
-function updateUserList(users) {
+function updateUserList(users, isSuperUser) {
     // Get the container where user items will be displayed
     const container = document.getElementById('userlist-container');
 
@@ -42,32 +42,40 @@ function updateUserList(users) {
 
     // Create a new user box for each user in the result
     users.forEach(user => {
-        // Create a new anchor element
-        const userBox = document.createElement('a');
+        // Create a new table row
+        const userBox = document.createElement('tr');
         userBox.className = 'user-box user';
-        userBox.href = `/user/${user.username}`; // Adjust URL according to your routing
-        
-        // Create and append the username span
-        const usernameSpan = document.createElement('span');
-        usernameSpan.className = 'username';
-        usernameSpan.textContent = user.username;
-        userBox.appendChild(usernameSpan);
 
-        // Create and append the user name span
-        const userNameSpan = document.createElement('span');
-        userNameSpan.className = 'user-name';
-        userNameSpan.textContent = `${user.first_name} ${user.last_name}`;
-        userBox.appendChild(userNameSpan);
+        // Create and append the username cell
+        const usernameTd = document.createElement('td');
+        usernameTd.className = 'username';
+        const usernameLink = document.createElement('a');
+        usernameLink.href = `/user/${user.username}`;
+        usernameLink.textContent = `${user.username} [${user.is_active ? "Active" : "Inactive"}]`;
+        usernameTd.appendChild(usernameLink);
+        userBox.appendChild(usernameTd);
 
-        // Create and append the amount span with conditional styling
-        const amountSpan = document.createElement('span');
-        amountSpan.className = 'amount';
-        amountSpan.style.fontFamily = "'Times New Roman', Times, serif";
-        amountSpan.style.color = user.amount_type === 'credit' ? 'green' : 'red';
-        amountSpan.textContent = Super_user? parseFloat(user.amount.toFixed(4)): "---";
-        userBox.appendChild(amountSpan);
+        // Create and append the user name cell
+        const userNameTd = document.createElement('td');
+        userNameTd.className = 'user-name';
+        const nameLink = document.createElement('a');
+        nameLink.href = `/user/${user.username}`;
+        nameLink.textContent = user.first_name || user.last_name ? `${user.first_name} ${user.last_name}` : "---";
+        userNameTd.appendChild(nameLink);
+        userBox.appendChild(userNameTd);
 
-        // Append the user box to the container
+        // Create and append the amount cell with conditional styling
+        const amountTd = document.createElement('td');
+        amountTd.className = 'amount';
+        const amountLink = document.createElement('a');
+        amountLink.href = `/user/${user.username}`;
+        amountLink.style.fontFamily = "'Times New Roman', Times, serif";
+        amountLink.style.color = user.amount_type === 'credit' ? 'green' : 'red';
+        amountLink.textContent = Super_user ? parseFloat(user.amount).toFixed(2) : "---";
+        amountTd.appendChild(amountLink);
+        userBox.appendChild(amountTd);
+
+        // Append the user row to the container
         container.appendChild(userBox);
     });
 }

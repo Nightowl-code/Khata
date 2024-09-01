@@ -7,7 +7,7 @@ from .serializers import CustomUserSerializer, TransactionSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Transaction, CustomUser
-from datetime import timedelta
+from datetime import timedelta,date
 
 def home(request):
     if request.user.is_authenticated:
@@ -42,7 +42,17 @@ def home(request):
 
             return render(request, "MainApp/home.html",{"amount": amount,"current_transaction": current_transaction})
         elif request.user.is_staff:
-            return redirect("MainApp:users")
+            users = CustomUser.objects.filter(is_staff=False)
+            # add amount of all users.amount in amount variable
+            # user with highest credit amount and highest debit amount
+            # if users has no 
+            
+            transaction = Transaction.objects.filter(party__is_staff=False)
+            # get transaction of last 1 week
+            # get todays date
+            todays_transaction = transaction.filter(date=date.today())
+
+            return render(request, "MainApp/home.html",{"current_transaction": todays_transaction})
         else:
             return redirect("MainApp:user",request.user.username)
     else:
@@ -117,18 +127,18 @@ def users(request):
 def createUser(request):
     if not request.user.is_staff:
         return redirect("MainApp:home")
+    
     if request.method == "POST":
-        form = UserForm(request.POST)
+        form = UserForm(request.POST, user=request.user)  # Pass the current user
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data["password"])
-            user.save()
+            form.save(commit=True)
             return redirect("MainApp:users")
         else:
-            return render(request, "MainApp/createUser.html", {"form": UserForm(),"error": form.errors,"action":'createuser'})
+            return render(request, "MainApp/createUser.html", {"form": form, "error": form.errors, "action": 'createuser'})
     else:
-        form = UserForm()
-        return render(request, "MainApp/createUser.html", {"form": form,"action":'createuser'})
+        form = UserForm(user=request.user)  # Pass the current user
+        return render(request, "MainApp/createUser.html", {"form": form, "action": 'createuser'})
+
     
 def user(request, id):
     if not request.user.is_staff and request.user.username != id:

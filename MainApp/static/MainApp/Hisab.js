@@ -71,7 +71,8 @@ document.getElementById('filter-button-apply').onclick = function() {
         filter_box.style.display = 'none';
         return;
     }
-    if(upperLimit != '' && lowerLimit != '' && upperLimit < lowerLimit) {
+    console.log(party, upperLimit, lowerLimit,parseInt(upperLimit)<parseInt(lowerLimit));
+    if(upperLimit != '' && lowerLimit != '' && parseInt(upperLimit)<parseInt(lowerLimit)) {
         alert('Upper limit should be greater than lower limit');
         return;
     }

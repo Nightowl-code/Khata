@@ -8,7 +8,7 @@
   <div class="display-container">
     <div class="display-box">
       <span class="display-name">Username: </span>
-      <span class="display-value">{{ user1.username }}</span>
+      <span class="display-value">{{ user1.username }} [{% if user1.is_active %}Active{% else %}Inactive{% endif %}]</span>
     </div>
     <div class="display-box">
       <span class="display-name">Name: </span>
@@ -46,32 +46,36 @@
   </div>
 {% endif %}
   <div class="container" id="container">
-    <div class="transaction-box transactionlist-header">
-      <span class="transactionname">Date</span>
-      <span class="transaction-name">Comment</span>
-      <span class="amount">Amount</span>
-      <span class="current-amount">Running total</span>
-    </div>
-    <div class="transactionlist-container">
+    <table>
+    <thead >
+      <tr class="transaction-box transactionlist-header">
+      <td class="transactionname">Date</td>
+      <td class="transaction-name">Comment</td>
+      <td class="amount">Amount</td>
+      <td class="current-amount">Running total</td>
+    </tr>
+    </thead>
+    <tbody class="transactionlist-container">
       {% for transaction in transactions %}
-      <a class="transaction-box transaction" href="{%url 'MainApp:hisab' id=transaction.id %}">
-        <span class="transactionname">{{ transaction.date }}</span>
-        <span class="transaction-name"
+      <tr class="transaction-box transaction" href="{%url 'MainApp:hisab' id=transaction.id %}">
+        <td class="transactionname">{{ transaction.date |date:"Y-m-d"}}</td>
+        <td class="transaction-name"
           >{{transaction.comment|truncatechars:20}}
-        </span>
-        <span
+        </td>
+        <td
           class="amount"
           style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
-          >{{transaction.amount|floatformat:2}}</span
+          >{{transaction.amount|floatformat:2}}</
         >
-        <span
+        <td
           class="amount"
           style="font-family:'Times New Roman', Times, serif;color:{% if transaction.running_total >= 0 %}green{% else %}red{% endif %};"
-          >{{transaction.running_total|floatformat:2}}</span
+          >{{transaction.running_total|floatformat:2}}</
         >
-      </a>
+      </tr>
       {% endfor %}
-    </div>
+    </tbody>
+    </table>
   </div>
 </div>
 

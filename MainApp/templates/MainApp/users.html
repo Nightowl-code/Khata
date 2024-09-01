@@ -30,21 +30,26 @@
         <a href="/createuser">Create User</a>
     </span>
 </div>
-<div class="container" id="container">
-    <div class="user-box userlist-header">
-        <span class="username">Username</span>
-        <span class="user-name">Name</span>
-        <span class="amount">Amount</span>
-    </div>
-    <div class="userlist-container"  id="userlist-container">
+<div class="table-container">
+<table class="container" id="container">
+    <thead>
+    <tr class="user-box userlist-header">
+        <th class="username">Username</th>
+        <th class="user-name">Name</th>
+        <th class="amount">Amount</th>
+    </tr>
+</thead>
+    <tbody class="userlist-container"  id="userlist-container">
     {% for user1 in users %}
-        <a class="user-box user" href="{%url 'MainApp:user' id=user1.username %}">
-        <span class="username">{{ user1.username }}</span>
-        <span class="user-name">{{user1.first_name}} {{user1.last_name}}</span>
-        <span class="amount" style="font-family:'Times New Roman', Times, serif;color:{% if user.amount_type == 'credit' %}green{% else %}red{% endif %};">{% if user.is_superuser %} {{user1.amount|floatformat:2 }} {% else %} ---- {% endif %}</span>  
-    </a>
+        <tr class="user-box user" >
+        <td class="username"><a href="{%url 'MainApp:user' id=user1.username %}">{{ user1.username }} [{% if user1.is_active %}Active{% else %}Inactive{% endif %}]</a></td>
+        <td class="user-name"><a href="{%url 'MainApp:user' id=user1.username %}">{% if user1.first_name or user1.last_name %} {{user1.first_name}} {{user1.last_name}} {% else %} --- {% endif %} </a></td>
+        <td class="amount" ><a href="{%url 'MainApp:user' id=user1.username %}" style="font-family:'Times New Roman', Times, serif;color:{% if user1.amount_type == 'credit' %}green{% else %}red{% endif %};">{% if user.is_superuser %} {{user1.amount|floatformat:2 }} {% else %} ---- {% endif %}</a></td>  
+    </tr>
+
     {% endfor %}
-</div>
+</tbody>
+</table>
 </div>
 </div>
 

@@ -19,8 +19,10 @@
     <ul class="sub-nav">
         {% if user.is_authenticated %}
         <li><a href="{% url 'MainApp:home' %}">Home</a></li>
-        {% if user.is_superuser %}
+        {% if user.is_staff %}
     <li><a href="{% url 'MainApp:users' %}">Users</a></li>
+    {% endif %}
+    {% if user.is_superuser %}
         <li><a href="{% url 'MainApp:hisab' %}">Hisab</a></li>
         {% endif %}
         <li><a href="{% url 'LoginApp:logout' %}">Logout</a></li>

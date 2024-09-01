@@ -56,26 +56,23 @@ div#container {
     height: -webkit-fill-available;
     /* background: red; */
 }
-
-.user-box {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+table {
+    border-spacing: 0px 1px;
+    width: 100%;
 }
-
 .userlist-header {
     height: 2rem;
     background: #00000047;
     border-radius: .2rem;
 }
 .userlist-container {
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
+    /* flex-direction: column; */
     gap: 1rem;
     padding: 1rem;
     border-radius: .2rem;
     background: #00000070;
-    /* height: 100px; */
+    height: 100px;
     overflow: auto;
     max-height: -webkit-fill-available;
 }
@@ -91,8 +88,25 @@ div#container {
 .user-box.user:hover {
     /* background: #000000b3; */
     cursor: pointer;
-    transform: scale(1.01);
+
 }
 a{
     text-decoration: none;
+}
+td, th{
+    text-align: start;
+    padding:.2rem;
+}
+.table-container {
+    height: -webkit-fill-available;
+    overflow: auto;
+}
+thead {
+    position: sticky;
+    top: 1px;
+    z-index: 2;
+    background-color: #fff; /* Ensure header has a background when scrolled */
+}
+td>a{
+    display: block;
 }

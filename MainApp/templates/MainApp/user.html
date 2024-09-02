@@ -8,7 +8,9 @@
   <div class="display-container">
     <div class="display-box">
       <span class="display-name">Username: </span>
-      <span class="display-value">{{ user1.username }} [{% if user1.is_active %}Active{% else %}Inactive{% endif %}]</span>
+      <span class="display-value"
+        >{{ user1.username }} [{% if user1.is_active %}Active{% else %}Inactive{% endif %}]</span
+      >
     </div>
     <div class="display-box">
       <span class="display-name">Name: </span>
@@ -38,43 +40,61 @@
       >
     </span>
     <span class="addDebit button">
-      <a href="/addtransaction?party={{ user1.username }}&type=debit">Add Debit</a>
+      <a href="/addtransaction?party={{ user1.username }}&type=debit"
+        >Add Debit</a
+      >
     </span>
     <span class="addCredit button">
-      <a href="/addtransaction?party={{ user1.username }}&type=credit">Add Credit</a>
+      <a href="/addtransaction?party={{ user1.username }}&type=credit"
+        >Add Credit</a
+      >
     </span>
   </div>
-{% endif %}
+  {% endif %}
   <div class="container" id="container">
     <table>
-    <thead >
-      <tr class="transaction-box transactionlist-header">
-      <td class="transactionname">Date</td>
-      <td class="transaction-name">Comment</td>
-      <td class="amount">Amount</td>
-      <td class="current-amount">Running total</td>
-    </tr>
-    </thead>
-    <tbody class="transactionlist-container">
-      {% for transaction in transactions %}
-      <tr class="transaction-box transaction" href="{%url 'MainApp:hisab' id=transaction.id %}">
-        <td class="transactionname">{{ transaction.date |date:"Y-m-d"}}</td>
-        <td class="transaction-name"
-          >{{transaction.comment|truncatechars:20}}
-        </td>
-        <td
-          class="amount"
-          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
-          >{{transaction.amount|floatformat:2}}</
+      <thead>
+        <tr class="transaction-box transactionlist-header">
+          <td class="transactionname">Date</td>
+          <td class="transaction-name">Comment</td>
+          <td class="amount">Amount</td>
+          <td class="current-amount">Running total</td>
+        </tr>
+      </thead>
+      <tbody class="transactionlist-container">
+        {% for transaction in transactions %}
+        <tr
+          class="transaction-box transaction"
+          href="{%url 'MainApp:hisab' id=transaction.id %}"
         >
-        <td
-          class="amount"
-          style="font-family:'Times New Roman', Times, serif;color:{% if transaction.running_total >= 0 %}green{% else %}red{% endif %};"
-          >{{transaction.running_total|floatformat:2}}</
-        >
-      </tr>
-      {% endfor %}
-    </tbody>
+          <td class="transactionname">
+            <a href="{%url 'MainApp:hisab' id=transaction.id %}"
+              >{{ transaction.date |date:"Y-m-d"}}</a
+            >
+          </td>
+          <td class="transaction-name">
+            <a href="{%url 'MainApp:hisab' id=transaction.id %}"
+              >{% if transaction.comment|truncatechars:20 %} {{transaction.comment|truncatechars:20}} {% else %} ---- {% endif %}</a
+            >
+          </td>
+          <td
+            class="amount"
+            style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
+          >
+            <a href="{%url 'MainApp:hisab' id=transaction.id %}"
+              >{{transaction.amount|floatformat:2}}</a
+            >
+          </td>
+          <td
+            class="amount"
+          >
+            <a href="{%url 'MainApp:hisab' id=transaction.id %}" style="font-family:'Times New Roman', Times, serif;color:{% if transaction.running_total >= 0 %}green{% else %}red{% endif %};"
+              >{{transaction.running_total|floatformat:2}}</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
 </div>

@@ -61,16 +61,17 @@ div#container {
     /* display: flex; */
     /* flex-direction: column; */
     gap: 1rem;
-    padding: 1rem;
+    /* padding: 1rem; */
     height: -webkit-fill-available;
     /* background: red; */
+    overflow: auto;
 }
 
-.transaction-box {
+/* .transaction-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 .transactionlist-header {
     height: 2rem;
@@ -99,10 +100,11 @@ div#container {
 .transaction-box.transaction:hover {
     /* background: rgba(7, 7, 7, 0.702); */
     cursor: pointer;
-    transform: scale(1.01);
+    /* transform: scale(1.01); */
 }
 a{
     text-decoration: none;
+    display: block;
 }
 
 .display-container {
@@ -110,11 +112,12 @@ a{
     padding: 10px;
     display: flex;
     justify-content: space-around;
-    height: 2rem;
+    /* height: 2rem; */
     align-items: center;
     font-size: 1.1rem;
     backdrop-filter: blur(100px);
     gap: 1.2rem;
+    flex-wrap: wrap;
 }
 
 .display-box {
@@ -125,5 +128,15 @@ a{
 table {
     /* height: 100%; */
     width: 100%;
+    border-spacing: 0px 1px;
+}
+td,th{
+    padding:.2rem;
+}
+thead {
+    position: sticky;
+    z-index: 2;
+    top: 0px;
+    background: beige;
 }
 

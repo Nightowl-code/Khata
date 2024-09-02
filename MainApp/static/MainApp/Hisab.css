@@ -15,7 +15,7 @@
     backdrop-filter: blur(9px);
 }
 td {
-    padding: 1rem;
+    /* padding: 1rem; */
     font-size: 1.2rem;
 }
 input, select {
@@ -56,3 +56,4 @@ input, select {
     border-radius: .2rem;
     /* backdrop-filter: blur(10px); */
 }
+

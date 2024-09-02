@@ -109,4 +109,5 @@ thead {
 }
 td>a{
     display: block;
+    padding:.2rem;
 }

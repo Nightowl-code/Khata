@@ -29,7 +29,7 @@ div#container {
 .transaction-container {
     max-width: 100%;
     min-width: 70%;
-    max-height: calc(100vh - 9rem);
+    max-height: calc(100vh - 11rem);
 }
 td{
     padding:.5rem;

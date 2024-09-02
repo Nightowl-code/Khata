@@ -12,11 +12,15 @@
       <span class="display-value">{{ user.username }}</span>
     </div>
     <div class="display-box">
-      <span class="display-name">Total Amount : </span>
+      <span class="display-name">Amount : </span>
+      <span class="display-creditamount" style="font-family:'Times New Roman', Times, serif;color:green">{{amount.credit_amout|floatformat:2}} </span>
+      <span>- </span>
+      <span class="display-debitamount" style="font-family:'Times New Roman', Times, serif;color:red">{{amount.debit_amout|floatformat:2}}</span>
+      <span> = </span>
       <span
         class="display-value"
         style="font-family:'Times New Roman', Times, serif;color:{% if amount.type == 'credit' %}green{% else %}red{% endif %};"
-        >{{ amount.value|floatformat:2 }}</span
+        > {{ amount.value|floatformat:2 }}</span
       >
     </div>
   </div>
@@ -31,20 +35,24 @@
   </div>
 
   <div class="container" id="container">
-    <div class="transaction-box transactionlist-header">
-      <span class="transactionname">Username</span>
-      <span class="transaction-name">Name</span>
-      <span class="amount">Amount</span>
-    </div>
-    <div class="transactionlist-container" id="transactionlist-container">
+    <table>
+      <thead>
+    <tr class="transaction-box transactionlist-header">
+      <td class="transactionname">Username</td>
+      <td class="transaction-name">Name</td>
+      <td class="amount">Amount</td>
+    </tr>
+  </thead>
+    <tbody class="transactionlist-container" id="transactionlist-container">
       {% for party in parties %}
-      <a class="transaction-box transaction" href="">
-        <span class="user-username">{{party.username}}</span>
-        <span class="user-name">{{party.first_name}} {{party.last_name}}</span>
-        <span class="user-amount" style="font-family:'Times New Roman', Times, serif;color:{% if party.amount_type == 'credit' %}green{% else %}red{% endif %};">{{party.amount|floatformat:2 }}</span>
-        </a>
+      <tr class="transaction-box transaction" href="">
+        <td class="user-username">{{party.username}}</td>
+        <td class="user-name">{% if party.first_name or party.last_name %} {{party.first_name}} {{party.last_name}} {% else %} ---- {% endif %}</a></td>
+        <td class="user-amount" style="font-family:'Times New Roman', Times, serif;color:{% if party.amount_type == 'credit' %}green{% else %}red{% endif %};" >{{party.amount|floatformat:2 }}</td>
+        </tr>
       {% endfor %}
-    </div>
+    </tbody>
+  </table>
   </div>
 </div>
 

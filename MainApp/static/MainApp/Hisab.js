@@ -31,19 +31,18 @@ function updateTransactionList(filteredData) {
     container.innerHTML = ''; // Clear existing content
 
     filteredData.forEach(function(user) {
-        var transactionElement = document.createElement('a');
+        var transactionElement = document.createElement('tr');
         transactionElement.className = 'transaction-box transaction';
-        // transactionElement.href = `/hisab/${transaction.id}`; // Adjust URL as needed
 
         transactionElement.innerHTML = `
-            <span class="user-username">${user.username}</span>
-            <span class="user-name">
+            <td class="user-username">${user.username}</td>
+            <td class="user-name">
                 ${user.first_name} ${user.last_name}
-            </span>
-            <span class="user-amount"
+            </td>
+            <td class="user-amount"
                 style="font-family:'Times New Roman', Times, serif; color:${user.amount_type === 'credit' ? 'green' : 'red'};">
                 ${parseFloat(user.amount.toFixed(4))}
-            </span>
+            </td>
         `;
         container.appendChild(transactionElement);
     });

@@ -1,5 +1,6 @@
-input, select{
+input, select {
     font-size: .8rem;
+    height: 2rem;
 }
 
 textarea#id_comment{

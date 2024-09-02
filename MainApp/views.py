@@ -38,7 +38,7 @@ def home(request):
             
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
-            current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7))
+            current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7)).order_by('-date')
 
             return render(request, "MainApp/home.html",{"amount": amount,"current_transaction": current_transaction})
         elif request.user.is_staff:
@@ -50,7 +50,7 @@ def home(request):
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
             # get todays date
-            todays_transaction = transaction.filter(date=date.today())
+            todays_transaction = transaction.filter(date=date.today()).order_by('-date')
 
             return render(request, "MainApp/home.html",{"current_transaction": todays_transaction})
         else:
@@ -188,11 +188,19 @@ def hisab(request):
         users = CustomUser.objects.filter(is_staff=False)
         # add amount of all users.amount in amount variable
         amount = 0
+        debit_amout=0
+        credit_amout=0
         for user in users:
             amount += user.amount
+            if user.amount < 0:
+                debit_amout += user.amount
+            else:
+                credit_amout += user.amount
         amount = {
             "value" : str(amount),
-            "type": "credit" if amount >= 0 else "debit"
+            "type": "credit" if amount >= 0 else "debit",
+            "debit_amout":str(debit_amout),
+            "credit_amout":str(credit_amout)
         }
         # print(amount)
         

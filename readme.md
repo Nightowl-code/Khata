@@ -37,4 +37,6 @@ Once the app is running, you can access it through your web browser at `http://1
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+This project is protected under "All Rights Reserved." Unauthorized use, sharing, modification, or distribution of this code or its contents is prohibited. For permissions, please contact: [manoj.patil@example.com].
+
+© 2024 [Manoj Patil](https://github.com/9147). All rights reserved.

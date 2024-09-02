@@ -8,7 +8,6 @@ KhataApp is a Django-based ledger application designed to help users manage thei
 - **Transaction Management**: Add, edit, and delete credit/debit transactions.
 - **Customer Management**: Keep track of customers and their associated transactions.
 - **Reports**: Generate detailed reports to analyze financial data.
-- **Export Data**: Export transaction records in various formats (CSV, PDF, etc.).
 - **Responsive Design**: User-friendly interface optimized for both desktop and mobile devices.
 
 ## Tech Stack

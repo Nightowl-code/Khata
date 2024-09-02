@@ -38,7 +38,7 @@ def home(request):
             
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
-            current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7)).order_by('-date','-sequence_number')
+            current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7)).order_by('-date','-id')
 
             return render(request, "MainApp/home.html",{"amount": amount,"current_transaction": current_transaction})
         elif request.user.is_staff:
@@ -50,7 +50,7 @@ def home(request):
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
             # get todays date
-            todays_transaction = transaction.filter(date=date.today()).order_by('-date','-sequence_number')
+            todays_transaction = transaction.filter(date=date.today()).order_by('-date','-id')
 
             return render(request, "MainApp/home.html",{"current_transaction": todays_transaction})
         else:

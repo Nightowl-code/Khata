@@ -81,7 +81,7 @@
             class="amount"
           >
             <a href="{%url 'MainApp:hisab' id=transaction.id %}" style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};"
-              >{% if transaction.type == 'credit' %}-{% endif %}{{transaction.amount|floatformat:2}}</a
+              >{% if transaction.type == 'debit' %}-{% endif %}{{transaction.amount|floatformat:2}}</a
             >
           </td>
           <td

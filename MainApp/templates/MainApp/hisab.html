@@ -12,16 +12,12 @@
       <span class="display-value">{{ user.username }}</span>
     </div>
     <div class="display-box">
-      <span class="display-name">Amount : </span>
+      <span class="display-name">Credit : </span>
       <span class="display-creditamount" style="font-family:'Times New Roman', Times, serif;color:green">{{amount.credit_amout|floatformat:2}} </span>
-      <span>- </span>
+    </div>
+    <div class="display-box">
+      <span class="display-name"> Debit : </span>
       <span class="display-debitamount" style="font-family:'Times New Roman', Times, serif;color:red">{{amount.debit_amout|floatformat:2}}</span>
-      <span> = </span>
-      <span
-        class="display-value"
-        style="font-family:'Times New Roman', Times, serif;color:{% if amount.type == 'credit' %}green{% else %}red{% endif %};"
-        > {{ amount.value|floatformat:2 }}</span
-      >
     </div>
   </div>
   <div class="header">

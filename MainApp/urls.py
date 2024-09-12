@@ -5,6 +5,7 @@ app_name = "MainApp"
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path('recent/', views.recent, name="recent"),
     path("addtransaction", views.addTransaction, name="addtransaction"),
     path("users", views.users, name="users"),
     path('createuser', views.createUser, name="createuser"),\
@@ -16,4 +17,5 @@ urlpatterns = [
     path('deleteTransaction/<int:id>',views.deleteTransaction,name="deleteTransaction"),
     path('editTransaction/<int:id>',views.editTransaction,name="editTransaction"),
     path('updatePassword',views.updatePassword,name="updatePassword"),
+    path('blockdate/<str:username>',views.blockDate,name="blockDate"),
 ]

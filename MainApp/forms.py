@@ -67,7 +67,6 @@ class TransactionForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
-    update_password = forms.BooleanField(required=False, label="Change Password", initial=False)
     password = forms.CharField(widget=forms.PasswordInput, required=False)
     password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password", required=False)
 
@@ -81,7 +80,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = models.CustomUser
-        fields = ['username', 'first_name', 'last_name', 'is_active', 'update_password', 'password', 'user_type']
+        fields = ['username', 'first_name', 'last_name', 'is_active', 'password', 'user_type']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
@@ -93,23 +92,19 @@ class UserForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        update_password = cleaned_data.get("update_password")
         password = cleaned_data.get("password")
         password2 = cleaned_data.get("password2")
 
-        if update_password:
-            if not password:
-                raise forms.ValidationError("Please enter the new password.")
+        if password or password2:
             if password != password2:
                 raise forms.ValidationError("Passwords don't match")
         return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        update_password = self.cleaned_data.get("update_password")
+        password = self.cleaned_data.get("password")
 
-        if update_password:
-            password = self.cleaned_data["password"]
+        if password:
             user.set_password(password)
         
         user.is_active = self.cleaned_data['is_active']
@@ -129,6 +124,7 @@ class UserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
 
 
 

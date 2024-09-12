@@ -39,6 +39,11 @@
         >Delete</a
       >
     </span>
+    <span class="block-date button">
+      <a
+        onclick="HideShowPopUp()"
+        >{% if user1.block_date %} BD: {{ user1.block_date|date:"Y-m-d" }}{% else %} Set block date{% endif %}</a>
+    </span>
     <span class="addDebit button">
       <a href="/addtransaction?party={{ user1.username }}&type=debit"
         >Add Debit</a
@@ -97,7 +102,24 @@
     </table>
   </div>
 </div>
+<div class="popup-window" id="popup" style="display: none;">
+  <div class="popup-content">
+    <span class="close-popup" >
+      <span class="close" onclick="HideShowPopUp()">&times;</span></span>
+    <form action="/blockdate/{{ user1.username }}" method="POST" onsubmit="return VerifyDate()">
+      {% csrf_token %}
+      <span>
+      <label for="block_date">Block Date:</label>
+      <input type="date" id="block_date" name="block_date" value="{{ user1.block_date | date:'Y-m-d' }}" />
+    </span>
+    <span class="button">
+      <input class="submit" type="submit" value="Submit" style="cursor:pointer;" />
+    </span>
+    </form>
+  </div>
+</div>
 
 <!-- <script type="text/javascript" src="{% static '/login/login.js' %}"></script> -->
+<script type="text/javascript" src="{% static '/MainApp/user.js' %}"></script>
 
 {% endblock content %}

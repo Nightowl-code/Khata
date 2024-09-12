@@ -9,7 +9,17 @@ from rest_framework.response import Response
 from .models import Transaction, CustomUser
 from datetime import timedelta,date
 
+
 def home(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            return render(request, "MainApp/home.html")
+        else:
+            return redirect("MainApp:user",request.user.username)
+    else:
+        return HttpResponseRedirect("/login")
+
+def recent(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
             users = CustomUser.objects.filter(is_staff=False)
@@ -21,7 +31,7 @@ def home(request):
                     "value" : "0",
                     "type": "credit"
                 }
-                return render(request, "MainApp/home.html",{"amount": amount})
+                return render(request, "MainApp/recent.html",{"amount": amount})
             max_credit_user = users[0]
             max_debit_user = users[0]
             amount = 0
@@ -40,7 +50,7 @@ def home(request):
             # get transaction of last 1 week
             current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7)).order_by('-date','-id')
 
-            return render(request, "MainApp/home.html",{"amount": amount,"current_transaction": current_transaction})
+            return render(request, "MainApp/recent.html",{"amount": amount,"current_transaction": current_transaction})
         elif request.user.is_staff:
             users = CustomUser.objects.filter(is_staff=False)
             # add amount of all users.amount in amount variable
@@ -52,7 +62,7 @@ def home(request):
             # get todays date
             todays_transaction = transaction.filter(date=date.today()).order_by('-date','-id')
 
-            return render(request, "MainApp/home.html",{"current_transaction": todays_transaction})
+            return render(request, "MainApp/recent.html",{"current_transaction": todays_transaction})
         else:
             return redirect("MainApp:user",request.user.username)
     else:
@@ -145,6 +155,13 @@ def user(request, id):
         return redirect("MainApp:home")
     user = CustomUser.objects.get(username=id)
     transactions = Transaction.objects.filter(party=user).order_by('-sequence_number')
+    if request.user.is_staff and not request.user.is_superuser:
+        transactions = {}
+        user.amount = 0
+    if not request.user.is_staff:
+        block_date = user.block_date
+        # get transaction after block date
+        transactions = transactions.filter(date__gte=block_date)
     return render(request, "MainApp/user.html", {"user1": user, "transactions": transactions})
 
 def editUser(request,id):
@@ -252,4 +269,14 @@ def editTransaction(request, id):
     
 def updatePassword(request):
     return editUser(request,request.user.username)
+
+def blockDate(request,username):
+    if request.method == "POST":
+        block_date = request.POST.get("block_date")
+        if not request.user.is_staff:
+            return redirect("MainApp:home")
+        user = CustomUser.objects.get(username=username)
+        user.block_date = block_date
+        user.save()
+        return redirect("MainApp:user",username)
 

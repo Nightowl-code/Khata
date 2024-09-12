@@ -20,6 +20,7 @@
         {% if user.is_authenticated %}
         <li><a href="{% url 'MainApp:home' %}">Home</a></li>
         {% if user.is_staff %}
+        <li><a href="{% url 'MainApp:recent' %}">Recent</a></li>
     <li><a href="{% url 'MainApp:users' %}">Users</a></li>
     {% endif %}
     {% if user.is_superuser %}

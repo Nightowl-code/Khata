@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block css %}
+
+<!-- <link rel="stylesheet" href="{% static 'login/login.css' %}">-->
+<link rel="stylesheet" href="{% static 'MainApp/recent.css' %}">
+<!-- <script src="{% static 'jquery-3.7.1.min.js' %}"></script>  -->
+
+{% endblock css %}
+{% block content %}
+<div class="outer-container">
+    <div class="container" id="container">
+        <div class="row">
+            <div class="transaction-container">
+                <h4 class="transaction-header">Recent Transactions</h4>
+                <div class="transaction-list">
+                    <table>
+                    {% for transaction in current_transaction %}
+                    <tr class="transaction">
+                    <td>    <div class="transaction-date">{{transaction.date}}</div></td>
+                    <td>    <div class="transaction-party">{{transaction.party.username}}</div></td>
+                    <td>    <div class="transaction-amount"
+                            style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{transaction.amount|floatformat:2}}</div></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <script type="text/javascript" src="{% static '/login/login.js' %}"></script> -->
+
+{% endblock content %}

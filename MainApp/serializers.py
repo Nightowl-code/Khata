@@ -4,7 +4,7 @@ from rest_framework import serializers
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username', 'first_name', 'last_name','amount','amount_type',"is_active"]
+        fields = ['username', 'first_name', 'last_name','amount','amount_type',"is_active","block_date"]
 
 
 class TransactionSerializer(serializers.ModelSerializer):

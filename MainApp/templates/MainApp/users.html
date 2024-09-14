@@ -29,6 +29,9 @@
     <span class="createuser">
         <a href="/createuser">Create User</a>
     </span>
+    <span class="button">
+        <a href="#" onclick="HideShowPopUp()" >Block date</a>
+    </span>
 </div>
 <div class="table-container">
 <table class="container" id="container">
@@ -51,6 +54,26 @@
 </tbody>
 </table>
 </div>
+</div>
+
+<div class="popup-window" id="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close-popup" >
+        <span class="close" onclick="HideShowPopUp()">x</span></span>
+      <form action="/blockdate/ALL" method="POST" onsubmit="return VerifyDate()">
+        {% csrf_token %}
+        <span>
+        <label for="block_date">Block Date:</label>
+        <input type="date" id="block_date" name="block_date" value="{{ user1.block_date | date:'Y-m-d' }}" />
+      </span>
+      <span class="button">
+        <input class="submit" type="submit" value="Submit" style="cursor:pointer;" />
+      </span>
+      <span class="button">
+        <input class="submit" type="button" value="Clear All" onclick="clearBlockDate('ALL')" style="cursor:pointer;" />
+      </span>
+      </form>
+    </div>
 </div>
 
 <script type="text/javascript" src="{% static '/login/login.js' %}"></script>

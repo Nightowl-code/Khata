@@ -275,6 +275,12 @@ def blockDate(request,username):
         block_date = request.POST.get("block_date")
         if not request.user.is_staff:
             return redirect("MainApp:home")
+        if username=="ALL":
+            users = CustomUser.objects.filter(is_staff=False)
+            for user in users:
+                user.block_date = block_date
+                user.save()
+            return redirect("MainApp:users")
         user = CustomUser.objects.get(username=username)
         user.block_date = block_date
         user.save()
@@ -284,7 +290,14 @@ def clearBlockDate(request):
     if request.method == "POST":
         if not request.user.is_staff:
             return redirect("MainApp:home")
-        user = CustomUser.objects.get(username=request.POST.get("username"))
+        username = request.POST.get("username")
+        if username=="ALL":
+            users = CustomUser.objects.filter(is_staff=False)
+            for user in users:
+                user.block_date = None
+                user.save()
+            return JsonResponse({"status":"Successfull updated block date"})
+        user = CustomUser.objects.get(username=username)
         user.block_date = None
         user.save()
         return JsonResponse({"status":"Successfull updated block date"})

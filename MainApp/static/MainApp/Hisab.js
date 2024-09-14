@@ -100,3 +100,45 @@ document.getElementById('filter-button-apply').onclick = function() {
     filter_box.style.display = 'none';
 
 }
+
+function downloadFile() {
+    type = document.getElementById('download-choice').value;
+    console.log(type);
+    if (type === 'excel') {
+        // Convert UserData to Excel
+        const worksheet = XLSX.utils.json_to_sheet(UserData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "UserData");
+        XLSX.writeFile(workbook, "UserData.xlsx");
+
+    } else if (type === 'pdf') {
+        // Convert UserData to PDF
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const columns = ["Username", "First Name", "Last Name", "Amount", "Amount Type", "Is Active", "Block Date"];
+        const rows = UserData.map(item => [
+            item.username, item.first_name, item.last_name,
+            item.amount, item.amount_type, item.is_active, item.block_date
+        ]);
+
+        // Add table to PDF
+        doc.autoTable({
+            head: [columns],
+            body: rows
+        });
+
+        doc.save('UserData.pdf');
+    } else {
+        console.error('Invalid type passed. Expected "excel" or "pdf".');
+    }
+}
+
+function HideShowDownloadWindow(){
+    var popup = document.getElementById("popup");
+    if(popup.style.display === "none"){
+        popup.style.display = "flex";
+    }else{
+        popup.style.display = "none";
+    }
+}

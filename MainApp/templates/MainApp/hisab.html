@@ -3,6 +3,11 @@
 <link rel="stylesheet" href="{% static 'MainApp/user.css' %}" />
 <link rel="stylesheet" href="{% static 'MainApp/Hisab.css' %}" />
 <script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Include jsPDF autotable plugin (for table support) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
 
 {% endblock css %} {% block content %}
 <div class="outer-container">
@@ -27,6 +32,9 @@
     </span>
     <span class="editUser button">
       <a href="/edituser/{{ user.username }}">Edit Profile</a>
+    </span>
+    <span class="download button">
+      <a href="#" onclick="HideShowDownloadWindow()">Download</a>
     </span>
   </div>
 
@@ -88,6 +96,23 @@
 </div>
 </div>
 </div>
+
+<div class="popup-window" id="popup" style="display: none;">
+  <div class="popup-content">
+    <span class="close-popup">
+      <a href="#" onclick="HideShowDownloadWindow()">x</a>
+    </span>
+    <span class="popup-header">Download data</span>
+    <span class="popup-body">
+      <select name="download-choice" id="download-choice" class="download-choice">
+        <option value="excel">Excel</option>
+        <option value="pdf">Pdf</option>
+      </select>
+        <input type="button" value="Download" onclick="downloadFile()">
+    </span>
+  </div>
+</div>
+
 
 <script type="text/javascript" src="{% static '/login/login.js' %}"></script>
 <script type="text/javascript" src="{% static '/MainApp/Hisab.js' %}"></script>

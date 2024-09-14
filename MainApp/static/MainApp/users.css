@@ -62,7 +62,7 @@ table {
 }
 .userlist-header {
     height: 2rem;
-    background: #00000047;
+    /* background: #00000047; */
     border-radius: .2rem;
 }
 .userlist-container {
@@ -71,7 +71,7 @@ table {
     gap: 1rem;
     padding: 1rem;
     border-radius: .2rem;
-    background: #00000070;
+    /* background: #00000070; */
     height: 100px;
     overflow: auto;
     max-height: -webkit-fill-available;
@@ -79,7 +79,7 @@ table {
 .user-box.user {
     /* align-items: center; */
     padding: .5rem;
-    background: #ffffff47;
+    /* background: #ffffff47; */
     border-radius: .2rem;
 
     /* backdrop-filter: blur(10px); */
@@ -105,9 +105,22 @@ thead {
     position: sticky;
     top: 1px;
     z-index: 2;
-    background-color: #fff; /* Ensure header has a background when scrolled */
+    /* background-color: #fff;  */
 }
 td>a{
     display: block;
     padding:.2rem;
+}
+tr.user-box.userlist-header{
+    background-color: white;
+}
+tr{
+    border: 1px solid #ddd;
+}
+tr:nth-child(odd){
+    background-color: rgba(7, 4, 4, 0.144);
+}
+table{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+    margin: 20px 0; 
 }

@@ -17,3 +17,23 @@ function VerifyDate(){
     }
     return true;
 }
+
+function clearBlockDate(username){
+    // send the username to the server
+    setRequestHeader();
+    $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        url: "/clear_block_date",
+        data: {
+            username: username
+        },
+        success: function(data){
+            alert(data.status);
+            location.reload();
+        },
+        error: function(error){
+            alert("Error: " + error);
+        }
+    });
+}

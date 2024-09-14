@@ -18,4 +18,5 @@ urlpatterns = [
     path('editTransaction/<int:id>',views.editTransaction,name="editTransaction"),
     path('updatePassword',views.updatePassword,name="updatePassword"),
     path('blockdate/<str:username>',views.blockDate,name="blockDate"),
+    path('clear_block_date',views.clearBlockDate,name="clearBlockDate"),
 ]

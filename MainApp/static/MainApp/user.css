@@ -75,7 +75,7 @@ div#container {
 
 .transactionlist-header {
     height: 2rem;
-    background: #00000093;
+    /* background: #00000093; */
     border-radius: .2rem;
 }
 .transactionlist-container {
@@ -84,7 +84,7 @@ div#container {
     gap: 1rem;
     padding: 1rem;
     border-radius: .2rem;
-    background: #0000004d;
+    /* background: #0000004d; */
     /* height: 100px; */
     overflow: auto;
     max-height: -webkit-fill-available;
@@ -92,9 +92,8 @@ div#container {
 .transaction-box.transaction {
     /* align-items: center; */
     padding: .5rem;
-    background: #ffffff47;
     border-radius: .2rem;
-    /* backdrop-filter: blur(10px); */
+
 }
 
 .transaction-box.transaction:hover {
@@ -137,7 +136,7 @@ thead {
     position: sticky;
     z-index: 2;
     top: 0px;
-    background: beige;
+    /* background: beige; */
 }
 
 #popup {
@@ -150,7 +149,7 @@ thead {
     display: none;
     justify-content: center;
     align-items: center;
-
+    z-index: 5;
 }
 .popup-content {
     background: white;
@@ -180,4 +179,18 @@ form{
     background: transparent;
     width: 100%;
     height: 100%;
+}
+
+tr{
+    background-color: rgb(255, 255, 255);
+}
+tr,tr.transaction-box.transaction{
+    border: 1px solid #ddd;
+}
+tr.transaction-box.transaction:nth-child(odd){
+    background-color: rgba(7, 4, 4, 0.144);
+}
+table{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+    margin: 20px 0; 
 }

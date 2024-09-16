@@ -319,9 +319,12 @@ def updateSettings(request):
             return redirect("MainApp:home")
         site_status = True if request.POST.get("site_state").lower() == "true" else False
         superuser_login_url = request.POST.get("site_url")
+        updateRequest = request.POST.get("updateRequest")
         settings = SiteSettings.objects.first()
-        settings.is_site_available = site_status
-        settings.superuser_login_url = superuser_login_url
+        if updateRequest == "site_status":        
+            settings.is_site_available = site_status
+        else:
+            settings.superuser_login_url = superuser_login_url
         settings.save()
         return JsonResponse({"status":"Successfull updated settings"})
     return JsonResponse({"status":"Failed to update settings"})

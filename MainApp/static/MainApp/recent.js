@@ -46,7 +46,8 @@ function UpdateSettings(site_state, site_url,updateRequest){
         url: "/update_settings",
         data: {
             site_state: site_state,
-            site_url: site_url
+            site_url: site_url,
+            updateRequest: updateRequest
         },
         success: function(data){
             toggleState(site_state,updateRequest);
@@ -74,6 +75,8 @@ function updateUrlToken(){
     if(!isConfirmed){
         return;
     }
+    // remove extra leading and ending space from token
+    token = token.trim();
     UpdateSettings(site_status, token,'token');
 
 }

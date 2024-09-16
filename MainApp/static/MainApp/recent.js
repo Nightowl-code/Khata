@@ -81,7 +81,7 @@ function updateUrlToken(){
 // double click url div
 const myButton = document.getElementById('superuser-login-url');
 
-myButton.addEventListener('dblclick', function() {
+myButton.addEventListener('click', function() {
     
 
     HideShowPopUp()

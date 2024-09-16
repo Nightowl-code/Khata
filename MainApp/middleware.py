@@ -19,15 +19,16 @@ class CheckSiteAvailabilityMiddleware:
         # URL that only the superuser knows
         custom_login_url = reverse('LoginApp:superuserLogin', kwargs={'token': site_setting.superuser_login_url})
         signin_url = reverse("LoginApp:signin")
-        print(request.path, custom_login_url)
+        site_unavailable_url = reverse('MainApp:siteUnavailable')  # Add this line to capture site_unavailable URL
+
         # If the site is unavailable and the user is not a superuser, block access
         if site_setting and not site_setting.is_site_available:
+            # Allow access to the siteUnavailable URL and the custom login URL
             if not request.user.is_authenticated or not request.user.is_superuser:
-                # Allow access to the custom login URL or the "signin" URL
-                if request.path != custom_login_url and request.path != signin_url:
+                if request.path_info not in [custom_login_url, signin_url, site_unavailable_url]:
                     # Check if the request is a POST to /login/signin
-                    if not (request.method == 'POST' and request.path == signin_url):
-                        return redirect(reverse('MainApp:siteUnavailable'))
+                    if not (request.method == 'POST' and request.path_info == signin_url):
+                        return redirect(site_unavailable_url)  # Prevent redirect loop
 
         # Proceed as normal if the site is available or the user is a superuser
         response = self.get_response(request)

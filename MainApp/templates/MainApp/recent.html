@@ -62,7 +62,7 @@
             <h4>Edit url token</h4>
             <div id="form">
                 {% csrf_token %}
-                <span id="url_block"><label for="url_token">{{base_url}}login/superuser/</label><input type="text" name="url_token" id="url_token" value="{{settings.superuser_login_url}}" required></span>
+                <span id="url_block"><label for="url_token">{{base_url}}/login/superuser/</label><input type="text" name="url_token" id="url_token" value="{{settings.superuser_login_url}}" required></span>
                 <input type="submit" value="Update" onclick="updateUrlToken()">
             </div>
         </div>

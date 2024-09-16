@@ -327,5 +327,8 @@ def updateSettings(request):
     return JsonResponse({"status":"Failed to update settings"})
 
 def siteUnavailable(request):
+    settings = SiteSettings.objects.first()
+    if settings.is_site_available:
+        return redirect("MainApp:home")
     return render(request, "MainApp/siteUnavailable.html")
 

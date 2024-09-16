@@ -216,3 +216,7 @@ input[type="submit"] {
     height: 2rem;
     width: 10rem;
 }
+label {
+    word-break: break-all;
+    white-space: normal;
+}

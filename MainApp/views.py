@@ -53,8 +53,13 @@ def recent(request):
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
             current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7)).order_by('-date','-id')
+            scheme = request.scheme  # http or https
+            host = request.get_host()  # subdomain.domain.com
+    
+            # Combine scheme and host
+            base_url = f"{scheme}://{host}"
 
-            return render(request, "MainApp/recent.html",{"amount": amount,"current_transaction": current_transaction,"settings":settings.data})
+            return render(request, "MainApp/recent.html",{"amount": amount,"current_transaction": current_transaction,"settings":settings.data,"base_url":base_url})
         elif request.user.is_staff:
             users = CustomUser.objects.filter(is_staff=False)
             # add amount of all users.amount in amount variable

@@ -57,7 +57,7 @@ function login(){
         data: data,
         success: function (data) {
             console.log("Success:", data);
-            window.location.href = "../";
+            window.location.href = "/";
         },
         error: function (jqXHR, textStatus, errorThrown) {
             var container=document.getElementById("container");

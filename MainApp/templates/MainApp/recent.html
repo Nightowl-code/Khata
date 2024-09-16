@@ -5,11 +5,31 @@
 
 <!-- <link rel="stylesheet" href="{% static 'login/login.css' %}">-->
 <link rel="stylesheet" href="{% static 'MainApp/recent.css' %}">
-<!-- <script src="{% static 'jquery-3.7.1.min.js' %}"></script>  -->
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script> 
 
 {% endblock css %}
 {% block content %}
 <div class="outer-container">
+    {% if user.is_superuser %}
+    <div class="settings-menu">
+        <span class="setting-menu-item">
+        <span>Site Status:</span>
+        <input type="checkbox" 
+               id="switch" 
+               class="checkbox"  {% if settings.is_site_available %} checked {% endif %}/>
+               
+        <label for="switch" 
+               class="toggle" >
+            <p>
+                OFF &nbsp;&nbsp; ON
+            </p>
+        </label>
+    </span>
+    <span class="setting-menu-item" id="superuser-login-url">
+        <span class="superuser-login-url">{{settings.superuser_login_url}}</span>
+    </span>
+    </div>
+    {% endif %}
     <div class="container" id="container">
         <div class="row">
             <div class="transaction-container">
@@ -32,6 +52,24 @@
     </div>
 </div>
 
-<!-- <script type="text/javascript" src="{% static '/login/login.js' %}"></script> -->
+
+<div class="popup-window" id="popup" style="display: none;">
+    <div class="popup-content">
+        <div class="popup-header">
+            <span class="close-popup" onclick="HideShowPopUp()">X</span>
+        </div>
+        <div class="popup-body">
+            <h4>Edit url token</h4>
+            <div id="form">
+                {% csrf_token %}
+                <span id="url_block"><label for="url_token">https://login/superuser/</label><input type="text" name="url_token" id="url_token" value="{{settings.superuser_login_url}}" required></span>
+                <input type="submit" value="Update" onclick="updateUrlToken()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'login/login.js' %}"></script>
+<script type="text/javascript" src="{% static '/MainApp/recent.js' %}"></script>
 
 {% endblock content %}

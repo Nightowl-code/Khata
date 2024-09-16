@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'MainApp.middleware.CheckSiteAvailabilityMiddleware',
 ]
 
 ROOT_URLCONF = "KhataApp.urls"

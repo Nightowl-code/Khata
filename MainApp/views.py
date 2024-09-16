@@ -3,14 +3,15 @@ from .forms import TransactionForm, UserForm
 from django.http import JsonResponse
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .serializers import CustomUserSerializer, TransactionSerializer
+from .serializers import CustomUserSerializer, TransactionSerializer, SiteSettingsSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Transaction, CustomUser
+from .models import Transaction, CustomUser, SiteSettings
 from datetime import timedelta,date
 
 
 def home(request):
+    print(request.user,request.user.is_authenticated,request.user.is_staff)
     if request.user.is_authenticated:
         if request.user.is_staff:
             return render(request, "MainApp/home.html")
@@ -45,12 +46,15 @@ def recent(request):
                 "value" : str(amount),
                 "type": "credit" if amount >= 0 else "debit"
             }
+
+            settings = SiteSettings.objects.first()
+            settings = SiteSettingsSerializer(settings)
             
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
             current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7)).order_by('-date','-id')
 
-            return render(request, "MainApp/recent.html",{"amount": amount,"current_transaction": current_transaction})
+            return render(request, "MainApp/recent.html",{"amount": amount,"current_transaction": current_transaction,"settings":settings.data})
         elif request.user.is_staff:
             users = CustomUser.objects.filter(is_staff=False)
             # add amount of all users.amount in amount variable
@@ -161,7 +165,8 @@ def user(request, id):
     if not request.user.is_staff:
         block_date = user.block_date
         # get transaction after block date
-        transactions = transactions.filter(date__gte=block_date)
+        if block_date:
+            transactions = transactions.filter(date__gte=block_date)
     return render(request, "MainApp/user.html", {"user1": user, "transactions": transactions})
 
 def editUser(request,id):
@@ -302,4 +307,20 @@ def clearBlockDate(request):
         user.save()
         return JsonResponse({"status":"Successfull updated block date"})
     return JsonResponse({"status":"Failed to update block date"})
+
+def updateSettings(request):
+    if request.method == "POST":
+        if not request.user.is_superuser:
+            return redirect("MainApp:home")
+        site_status = True if request.POST.get("site_state").lower() == "true" else False
+        superuser_login_url = request.POST.get("site_url")
+        settings = SiteSettings.objects.first()
+        settings.is_site_available = site_status
+        settings.superuser_login_url = superuser_login_url
+        settings.save()
+        return JsonResponse({"status":"Successfull updated settings"})
+    return JsonResponse({"status":"Failed to update settings"})
+
+def siteUnavailable(request):
+    return render(request, "MainApp/siteUnavailable.html")
 

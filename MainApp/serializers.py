@@ -1,4 +1,4 @@
-from .models import Transaction, CustomUser
+from .models import Transaction, CustomUser, SiteSettings
 from rest_framework import serializers
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -14,3 +14,8 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = '__all__'
 
+
+class SiteSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SiteSettings
+        fields = '__all__'

@@ -19,4 +19,6 @@ urlpatterns = [
     path('updatePassword',views.updatePassword,name="updatePassword"),
     path('blockdate/<str:username>',views.blockDate,name="blockDate"),
     path('clear_block_date',views.clearBlockDate,name="clearBlockDate"),
+    path('site_unavailable',views.siteUnavailable,name="siteUnavailable"),
+    path('update_settings',views.updateSettings,name="updateSettings"),
 ]

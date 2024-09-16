@@ -123,3 +123,17 @@ class Transaction(models.Model):
 
                 Transaction.objects.filter(pk=transaction.pk).update(running_total=running_total)
 
+
+class SiteSettings(models.Model):
+    is_site_available = models.BooleanField(default=True)
+    superuser_login_url = models.CharField(max_length=255)
+
+    def save(self, *args, **kwargs):
+        # Check if an instance already exists
+        if SiteSettings.objects.exists():
+            # If so, update the existing instance
+            self.pk = SiteSettings.objects.first().pk
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return "Site Settings"

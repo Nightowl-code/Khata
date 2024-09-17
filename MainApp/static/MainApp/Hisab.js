@@ -102,24 +102,30 @@ document.getElementById('filter-button-apply').onclick = function() {
 }
 
 function downloadFile() {
-    type = document.getElementById('download-choice').value;
+    const type = document.getElementById('download-choice').value;
     console.log(type);
+
+    // Map UserData to only include full name and amount
+    const filteredData = UserData.map(item => ({
+        full_name: item.first_name + " " + item.last_name,
+        amount: item.amount
+    }));
+
     if (type === 'excel') {
-        // Convert UserData to Excel
-        const worksheet = XLSX.utils.json_to_sheet(UserData);
+        // Convert filtered data to Excel
+        const worksheet = XLSX.utils.json_to_sheet(filteredData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "UserData");
         XLSX.writeFile(workbook, "UserData.xlsx");
 
     } else if (type === 'pdf') {
-        // Convert UserData to PDF
+        // Convert filtered data to PDF
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-        const columns = ["Username", "First Name", "Last Name", "Amount", "Amount Type", "Is Active", "Block Date"];
-        const rows = UserData.map(item => [
-            item.username, item.first_name, item.last_name,
-            item.amount, item.amount_type, item.is_active, item.block_date
+        const columns = ["Full Name", "Amount"];
+        const rows = filteredData.map(item => [
+            item.full_name, item.amount
         ]);
 
         // Add table to PDF
@@ -133,6 +139,7 @@ function downloadFile() {
         console.error('Invalid type passed. Expected "excel" or "pdf".');
     }
 }
+
 
 function HideShowDownloadWindow(){
     var popup = document.getElementById("popup");

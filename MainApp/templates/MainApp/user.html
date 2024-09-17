@@ -98,6 +98,14 @@
           </td>
         </tr>
         {% endfor %}
+        {% if not user.is_staff  and last_transaction %}
+        <tr
+          class="transaction-box transaction">
+          <td class="opening_balance" colspan="4" style="text-align: center;">
+            <a href="">Opening balance: {{last_transaction |floatformat:2}}</a>
+          </td>
+        </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>

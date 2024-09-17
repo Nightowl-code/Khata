@@ -194,3 +194,9 @@ table{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
     margin: 20px 0; 
 }
+
+td.opening_balance {
+    background-color: white;
+    padding: .7rem;
+    font-size: 1.2rem;
+}

@@ -172,6 +172,9 @@ def user(request, id):
         # get transaction after block date
         if block_date:
             transactions = transactions.filter(date__gte=block_date)
+            last_transaction = transactions.last()
+            amount = -last_transaction.amount + last_transaction.running_total
+        return render(request, "MainApp/user.html", {"user1": user, "transactions": transactions,"last_transaction":amount if block_date else None})
     return render(request, "MainApp/user.html", {"user1": user, "transactions": transactions})
 
 def editUser(request,id):

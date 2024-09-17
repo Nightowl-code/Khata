@@ -1,3 +1,4 @@
-django==5.1 
+django==5.1
 djangorestframework==3.15.2
 whitenoise==6.7.0
+gunicorn==21.2.0 

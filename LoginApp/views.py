@@ -33,6 +33,7 @@ def logoutMe(request):
 
 def superuserLogin(request,token):
     setting = SiteSettings.objects.first()
+    print(token,setting.superuser_login_url,token==setting.superuser_login_url)
     if token == setting.superuser_login_url:
         return render(request, "LoginApp/login.html")
     return HttpResponse(status=404)

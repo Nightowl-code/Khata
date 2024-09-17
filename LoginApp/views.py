@@ -36,4 +36,4 @@ def superuserLogin(request,token):
     print(token,setting.superuser_login_url,token==setting.superuser_login_url)
     if token == setting.superuser_login_url:
         return render(request, "LoginApp/login.html")
-    return HttpResponse(status=404)
+    return redirect('MainApp:siteUnavailable')

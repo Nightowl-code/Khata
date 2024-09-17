@@ -15,8 +15,6 @@ class CheckSiteAvailabilityMiddleware:
             site_setting.is_site_available = True
             site_setting.superuser_login_url = "admin1234"
             site_setting.save()
-        else:
-            site_setting.refresh_from_db()
 
         # URL that only the superuser knows
         custom_login_url = reverse('LoginApp:superuserLogin', kwargs={'token': site_setting.superuser_login_url})

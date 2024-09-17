@@ -102,7 +102,7 @@
         <tr
           class="transaction-box transaction">
           <td class="opening_balance" colspan="4" style="text-align: center;">
-            <a href="">Opening balance: {{last_transaction |floatformat:2}}</a>
+            <a href="">Opening balance: <span style="color:{% if last_transaction < 0 %}red;{% else %} green; {% endif %}">{{last_transaction |floatformat:2}}</span></a>
           </td>
         </tr>
         {% endif %}

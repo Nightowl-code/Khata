@@ -14,9 +14,9 @@
 
 </head>
 <body>
-<nav>
+<nav class="nav">
     <img src="{% static 'images/logoNoBG.png' %}" class="sub-nav" alt="logo" height="100%">
-    <ul class="sub-nav">
+    <ul class="sub-nav" id="nav_section">
         {% if user.is_authenticated %}
         <li><a href="{% url 'MainApp:home' %}">Home</a></li>
         {% if user.is_staff %}
@@ -25,17 +25,20 @@
     {% endif %}
     {% if user.is_superuser %}
         <li><a href="{% url 'MainApp:hisab' %}">Hisab</a></li>
+        <li><a href="/admin">Setting</a></li>
         {% endif %}
         <li><a href="{% url 'LoginApp:logout' %}">Logout</a></li>
         {% endif %}
 
 
     </ul>
+    <img id="menu_icon" src="{% static 'images/menu.png' %}" class="sub-nav" alt="logo" height="100%" onclick="toggleMenu()">
 </nav>
 {% block content %}{% endblock %}
 <footer>
     <!-- add footer -->
     <p><a href="https://www.linkedin.com/in/mpaantoijl">&#169; Made with ❤️</a></p>
 </footer>
+<script src="{% static 'base.js' %}"></script>
 </body>
 </html>

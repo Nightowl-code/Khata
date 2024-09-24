@@ -108,7 +108,7 @@ function downloadFile() {
     // Map UserData to only include full name and amount
     const filteredData = UserData.map(item => ({
         full_name: item.first_name + " " + item.last_name,
-        amount: item.amount
+        amount: parseFloat(item.amount).toFixed(2) // Round to 2 decimal places
     }));
 
     if (type === 'excel') {

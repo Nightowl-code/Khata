@@ -126,6 +126,9 @@ footer p a{
         font-size: 20px;
     }
     #nav_section {
+        position: fixed;
+        backdrop-filter: blur(10px);
+        height: fit-content;
         display: none;
         position: relative;
         top: 2.5rem;
@@ -134,7 +137,9 @@ footer p a{
         width: 100vw;
         z-index: 4;
         flex-direction: column;
-        gap:2px;
+        gap: 2px;
+        top: 9rem;
+        /* width: 100vw; */
     }
     #nav_section>li>a {
         display: block;

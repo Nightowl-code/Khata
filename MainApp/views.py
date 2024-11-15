@@ -165,6 +165,7 @@ def user(request, id):
     user = CustomUser.objects.get(username=id)
     transactions = Transaction.objects.filter(party=user).order_by('-sequence_number')
     if request.user.is_staff and not request.user.is_superuser:
+    
         transactions = {}
         user.amount = 0
     if not request.user.is_staff:

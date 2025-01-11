@@ -36,3 +36,6 @@ pip-log.txt
 *.code-workspace
 
 */static/admin/*
+
+KhataApp/settings.py
+KhataApp/wsgi.py

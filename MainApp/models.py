@@ -135,6 +135,13 @@ class Transaction(models.Model):
             # Update only the running total for each transaction
             Transaction.objects.filter(pk=transaction.pk).update(running_total=running_total)
 
+        # update the parties total amount
+        CustomUser.objects.filter(pk=self.party.pk).update(amount=running_total)
+        if running_total >= 0:
+            CustomUser.objects.filter(pk=self.party.pk).update(amount_type="credit")
+        else:
+            CustomUser.objects.filter(pk=self.party.pk).update(amount_type="debit")
+
 
 
 class SiteSettings(models.Model):

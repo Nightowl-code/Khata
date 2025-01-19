@@ -52,7 +52,8 @@ def recent(request):
             
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
-            current_transaction = transaction.filter(date__gte=transaction.last().date - timedelta(days=7)).order_by('-date','-id')
+            current_transaction = transaction.filter(date=date.today()).order_by('-date','-id')
+
             scheme = request.scheme  # http or https
             host = request.get_host()  # subdomain.domain.com
     

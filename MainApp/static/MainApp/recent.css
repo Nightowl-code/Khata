@@ -1,11 +1,45 @@
 div#container {
     /* background: red; */
-    height: calc(100vh - 10rem);
-    padding: 2rem;
+    height: calc(100vh - 10rem - 10vh);
+    padding: 1rem;
     font-size: 1.2rem;
     display: flex;
     flex-direction: column;
     /* justify-content: space-evenly; */
+}
+input[type="date"] { 
+    background: transparent;
+    color: black;
+    border-radius: .5rem;
+    padding: .5rem;
+    font-size: 1rem;
+  }
+div.total_amout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+div.date-control {
+    margin-top: 1rem;
+    display: flex;
+    gap: .3rem;
+    flex-direction: row;
+    justify-content: space-around;
+}
+div.inner-data-control{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+div.inner-data-control>input[type='submit'] {
+    padding: .5rem;
+    border: solid 2px black;
+    border-radius: .5rem;
+    user-select: none;
+    cursor: pointer;
+}
+div.inner-data-control>button:hover {
+    background: #b8dfd9;
 }
 .row {
     display: flex;

@@ -30,6 +30,16 @@
     </span>
     </div>
     {% endif %}
+    <!-- control to move to any particular date -->
+    <div class="date-control">
+        <div class="total_amout"><span class="credit-amount" style="color: green;"> Credit: {{amount.credit}} </span><span class="debit-amount" style="color:red">Debit: {{amount.debit}}</span></div> 
+        <form class="inner-data-control" action="./" method="post" >
+            {% csrf_token %}
+        <input type="date" name="date" id="date" value="{{current_date}}" required>
+        <input type="submit" id="date-control-button" onclick="changeDate()" value="Go" style="width: 2rem;">
+    </form>
+    </div>
+    
     <div class="container" id="container">
         <div class="row">
             <div class="transaction-container">

@@ -91,5 +91,3 @@ myButton.addEventListener('click', function() {
 //   alert('Button double-clicked!');
   
 });
-
-

@@ -21,38 +21,37 @@ def home(request):
         return HttpResponseRedirect("/login")
 
 def recent(request):
+    requested_date = date.today().strftime("%Y-%m-%d")
+    if request.method == "POST":
+        requested_date = request.POST.get("date")
+        if not requested_date:
+            requested_date = date.today().strftime("%Y-%m-%d")
+    print(requested_date)
     if request.user.is_authenticated:
         if request.user.is_superuser:
             users = CustomUser.objects.filter(is_staff=False)
             # add amount of all users.amount in amount variable
             # user with highest credit amount and highest debit amount
             # if users has no 
-            if len(users) == 0:
-                amount = {
-                    "value" : "0",
-                    "type": "credit"
-                }
-                return render(request, "MainApp/recent.html",{"amount": amount})
-            max_credit_user = users[0]
-            max_debit_user = users[0]
-            amount = 0
-            for user in users:
-                if user.amount > max_credit_user.amount:
-                    max_credit_user = user
-                if user.amount < max_debit_user.amount:
-                    max_debit_user = user
-                amount += user.amount
-            amount = {
-                "value" : str(amount),
-                "type": "credit" if amount >= 0 else "debit"
-            }
-
             settings = SiteSettings.objects.first()
             settings = SiteSettingsSerializer(settings)
             
             transaction = Transaction.objects.filter(party__is_staff=False)
-            # get transaction of last 1 week
-            current_transaction = transaction.filter(date=date.today()).order_by('-date','-id')
+
+            # get transaction of the requested_date
+            current_transaction = transaction.filter(date=requested_date).order_by('-date','-id')
+
+            total_credit =0
+            total_debit = 0
+            for transaction in current_transaction:
+                if transaction.type == "credit":
+                    total_credit += transaction.amount
+                else:
+                    total_debit += transaction.amount
+            amount = {
+                "credit":total_credit,
+                "debit":total_debit
+            }
 
             scheme = request.scheme  # http or https
             host = request.get_host()  # subdomain.domain.com
@@ -60,7 +59,7 @@ def recent(request):
             # Combine scheme and host
             base_url = f"{scheme}://{host}"
 
-            return render(request, "MainApp/recent.html",{"amount": amount,"current_transaction": current_transaction,"settings":settings.data,"base_url":base_url})
+            return render(request, "MainApp/recent.html",{"amount": amount,"current_transaction": current_transaction,"settings":settings.data,"base_url":base_url,'current_date':requested_date})
         elif request.user.is_staff:
             users = CustomUser.objects.filter(is_staff=False)
             # add amount of all users.amount in amount variable
@@ -70,9 +69,20 @@ def recent(request):
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
             # get todays date
-            todays_transaction = transaction.filter(date=date.today()).order_by('-date','-id')
+            todays_transaction = transaction.filter(date=requested_date).order_by('-date','-id')
+            total_credit =0
+            total_debit = 0
+            for transaction in todays_transaction:
+                if transaction.type == "credit":
+                    total_credit += transaction.amount
+                else:
+                    total_debit += transaction.amount
+            amount = {
+                "credit":total_credit,
+                "debit":total_debit
+            }
 
-            return render(request, "MainApp/recent.html",{"current_transaction": todays_transaction})
+            return render(request, "MainApp/recent.html",{"amount":amount,"current_transaction": todays_transaction,'current_date':requested_date})
         else:
             return redirect("MainApp:user",request.user.username)
     else:

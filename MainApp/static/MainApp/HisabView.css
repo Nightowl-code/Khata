@@ -34,14 +34,17 @@ div#container {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(2000px);
-    border-top: solid;
+    border: solid;
+    border-bottom: none;
+    border-top-left-radius: .4rem;
+    border-top-right-radius: .4rem;
 }
 .buttons-bottom>a:hover{
     background: #00000093;
 }
-.buttons-bottom>a:first-child{
+/* .buttons-bottom>a:first-child{
     border-right:solid 1px;
-}
+} */
 
 .return-back {
     position: fixed;

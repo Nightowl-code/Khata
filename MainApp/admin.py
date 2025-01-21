@@ -16,7 +16,7 @@ class CustomUserAdmin(UserAdmin):
 # Register the Transaction model
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('type', 'amount', 'party', 'date', 'comment','running_total','sequence_number')
+    list_display = ('type', 'amount', 'party', 'date', 'comment','running_total','sequence_number','created_by')
     list_filter = ('type', 'date','party')
     search_fields = ('party__username', 'comment')
     date_hierarchy = 'date'

@@ -19,6 +19,7 @@ class Transaction(models.Model):
     comment = models.TextField(blank=True)
     running_total = models.FloatField(default=0)
     sequence_number = models.FloatField()
+    created_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='created_transactions')
 
     class Meta:
         unique_together = ('party', 'sequence_number')

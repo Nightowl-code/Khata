@@ -69,7 +69,7 @@ def recent(request):
             transaction = Transaction.objects.filter(party__is_staff=False)
             # get transaction of last 1 week
             # get todays date
-            todays_transaction = transaction.filter(date=requested_date).order_by('-date','-id')
+            todays_transaction = transaction.filter(date=requested_date,created_by=request.user).order_by('-date','-id')
             total_credit =0
             total_debit = 0
             for transaction in todays_transaction:
@@ -102,7 +102,12 @@ def addTransaction(request):
     if request.method == "POST":
         form = TransactionForm(request.POST)
         if form.is_valid():
-            form.save()
+            transaction = form.save()
+            if not request.user.is_superuser and request.user.is_staff:
+                # update the created_by feild in the transaction
+                transaction.created_by = request.user
+                transaction.save()
+                print("transaction:",transaction)
             if request.POST.get('submit') == 'Add Another Transaction':
                 # Pre-fill the party field with the previously entered value
                 form = TransactionForm(initial={"party": form.cleaned_data['party'].id})
@@ -176,8 +181,7 @@ def user(request, id):
     user = CustomUser.objects.get(username=id)
     transactions = Transaction.objects.filter(party=user).order_by('-sequence_number')
     if request.user.is_staff and not request.user.is_superuser:
-    
-        transactions = {}
+        transactions = Transaction.objects.filter(party=user,created_by=request.user).order_by('-sequence_number')
         user.amount = 0
     if not request.user.is_staff:
         block_date = user.block_date

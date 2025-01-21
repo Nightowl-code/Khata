@@ -1,11 +1,11 @@
 div#container {
-    /* background: red; */
+    /*background: red;*/
     height: calc(100vh - 10rem - 10vh);
     padding: 1rem;
     font-size: 1.2rem;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-evenly; */
+    /*justify-content: space-evenly; */
 }
 input[type="date"] { 
     background: transparent;
@@ -13,7 +13,7 @@ input[type="date"] {
     border-radius: .5rem;
     padding: .5rem;
     font-size: 1rem;
-  }
+}
 div.total_amout {
     display: flex;
     flex-direction: column;
@@ -103,6 +103,7 @@ h1 {
 .toggle {
     position: relative;
     display: flex;
+    scale:.6;
     width: 100px;
     height: 52px;
     background-color: red;
@@ -156,7 +157,6 @@ span.setting-menu-item {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: .5rem;
 }
 
 .settings-menu {
@@ -253,4 +253,11 @@ input[type="submit"] {
 label {
     word-break: break-all;
     white-space: normal;
+}
+
+select#user_selected{
+    padding: .1rem;
+    border-radius: .5rem;
+    border-color: #000000;
+    font-size: 1rem;
 }

@@ -13,7 +13,7 @@
     {% if user.is_superuser %}
     <div class="settings-menu">
         <span class="setting-menu-item">
-        <span>Site Status:</span>
+        <span class="menu-title">Live:</span>
         <input type="checkbox" 
                id="switch" 
                class="checkbox"  {% if settings.is_site_available %} checked {% endif %}/>
@@ -24,6 +24,15 @@
                 OFF &nbsp;&nbsp; ON
             </p>
         </label>
+    </span>
+    <span class="setting-menu-item">
+        <span class="menu-title">User: </span>
+        <select name="user" id="user_selected" onchange="syncSelectValue()">
+            <option value="all" {% if selected_user.superuser %} selected {% endif %}>All</option>
+            {% for user in staff %}
+            <option value="{{user.username}}" {% if selected_user.username == user.username %} selected {% endif %}>{{user.username}}</option>
+            {% endfor %}
+        </select>
     </span>
     <span class="setting-menu-item" id="superuser-login-url">
         <span class="superuser-login-url">{{settings.superuser_login_url}}</span>
@@ -36,7 +45,8 @@
         <form class="inner-data-control" action="./" method="post" >
             {% csrf_token %}
         <input type="date" name="date" id="date" value="{{current_date}}" required>
-        <input type="submit" id="date-control-button" onclick="changeDate()" value="Go" style="width: 2rem;">
+        <input type="hidden" name="user" id="hidden-select-value">
+        <input type="submit" id="date-control-button" value="Go" style="width: 2rem;">
     </form>
     </div>
     

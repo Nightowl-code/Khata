@@ -22,14 +22,20 @@ def home(request):
 
 def recent(request):
     requested_date = date.today().strftime("%Y-%m-%d")
+    requested_user = request.user
     if request.method == "POST":
         requested_date = request.POST.get("date")
+        requested_user = request.POST.get("user")
+        print("requested_user: ",requested_user)
         if not requested_date:
             requested_date = date.today().strftime("%Y-%m-%d")
-    print(requested_date)
+        if not requested_user or requested_user.lower() == "all":
+            requested_user = request.user.username
+        requested_user = CustomUser.objects.get(username=requested_user)
+        print("requested_user:",requested_user)
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            users = CustomUser.objects.filter(is_staff=False)
+            staff = CustomUser.objects.filter(is_staff=True,is_superuser=False)
             # add amount of all users.amount in amount variable
             # user with highest credit amount and highest debit amount
             # if users has no 
@@ -39,7 +45,12 @@ def recent(request):
             transaction = Transaction.objects.filter(party__is_staff=False)
 
             # get transaction of the requested_date
-            current_transaction = transaction.filter(date=requested_date).order_by('-date','-id')
+            current_transaction = transaction.filter(date=requested_date)
+
+            if not requested_user.is_superuser:
+                current_transaction = current_transaction.filter(created_by=requested_user)
+
+            current_transaction = current_transaction.order_by('-date','-id')
 
             total_credit =0
             total_debit = 0
@@ -53,13 +64,15 @@ def recent(request):
                 "debit":total_debit
             }
 
+            staff = CustomUserSerializer(staff, many=True)
+
             scheme = request.scheme  # http or https
             host = request.get_host()  # subdomain.domain.com
     
             # Combine scheme and host
             base_url = f"{scheme}://{host}"
 
-            return render(request, "MainApp/recent.html",{"amount": amount,"current_transaction": current_transaction,"settings":settings.data,"base_url":base_url,'current_date':requested_date})
+            return render(request, "MainApp/recent.html",{"selected_user":requested_user,"staff":staff.data,"amount": amount,"current_transaction": current_transaction,"settings":settings.data,"base_url":base_url,'current_date':requested_date})
         elif request.user.is_staff:
             users = CustomUser.objects.filter(is_staff=False)
             # add amount of all users.amount in amount variable
@@ -181,7 +194,7 @@ def user(request, id):
     user = CustomUser.objects.get(username=id)
     transactions = Transaction.objects.filter(party=user).order_by('-sequence_number')
     if request.user.is_staff and not request.user.is_superuser:
-        transactions = Transaction.objects.filter(party=user,created_by=request.user).order_by('-sequence_number')
+        transactions = {}
         user.amount = 0
     if not request.user.is_staff:
         block_date = user.block_date

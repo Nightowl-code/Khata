@@ -91,3 +91,11 @@ myButton.addEventListener('click', function() {
 //   alert('Button double-clicked!');
   
 });
+
+function syncSelectValue() {
+    const selectField = document.getElementById('user_selected');
+    const hiddenField = document.getElementById('hidden-select-value');
+    hiddenField.value = selectField.value;
+}
+
+document.getElementById('date-control-button').addEventListener('click', syncSelectValue);

@@ -41,7 +41,7 @@
     {% endif %}
     <!-- control to move to any particular date -->
     <div class="date-control">
-        <div class="total_amout"><span class="credit-amount" style="color: green;"> Credit: {{amount.credit}} </span><span class="debit-amount" style="color:red">Debit: {{amount.debit}}</span></div> 
+        <div class="total_amout"><span class="credit-amount" style="color: green;"> Credit: {{amount.credit |floatformat:2 }} </span><span class="debit-amount" style="color:red">Debit: {{amount.debit | floatformat:2}}</span></div> 
         <form class="inner-data-control" action="./" method="post" >
             {% csrf_token %}
         <input type="date" name="date" id="date" value="{{current_date}}" required>

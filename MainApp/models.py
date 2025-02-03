@@ -113,7 +113,9 @@ class Transaction(models.Model):
 
         # if previous transaction
         transaction_below = Transaction.objects.filter(
-            party=self.party, date__lte=self.date
+            party=self.party, 
+            date__lte=self.date,
+            sequence_number__lt=self.sequence_number
         ).order_by('-date', '-sequence_number').first()
 
         # check if transaction_below is null
@@ -122,6 +124,7 @@ class Transaction(models.Model):
         else:
             running_total =0
 
+        print("running_total",running_total)
         print(subsequent_transactions)
 
     

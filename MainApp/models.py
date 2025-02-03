@@ -43,7 +43,7 @@ class Transaction(models.Model):
         last_transaction = Transaction.objects.filter(
             party=self.party,
             date__lte=self.date,
-            sequence_number__lte=self.sequence_number
+            sequence_number__lt=self.sequence_number
         ).exclude(pk=self.pk).order_by('-date', '-sequence_number').first()
 
         print("last_transaction",last_transaction)
@@ -60,16 +60,22 @@ class Transaction(models.Model):
         if self.type == "debit":
             amount_difference = -amount_difference  # Reverse sign for debits
 
-        # Adjust the party's total amount
-        self.party.amount += amount_difference
-        self.party.amount_type = "credit" if self.party.amount >= 0 else "debit"
-        self.party.save()
 
         # Save the transaction with the new running total
         super().save(*args, **kwargs)
 
         # Update running totals for all subsequent transactions to reflect the adjusted amount
         self.update_subsequent_running_totals()
+
+        # get party
+        party = CustomUser.objects.get(pk=self.party.pk)
+        # get latest transaction
+        latest_transaction = Transaction.objects.filter(party=self.party).order_by('-date', '-sequence_number').first()
+        print("latest_transaction",latest_transaction)
+        # update the party amount
+        party.amount = latest_transaction.running_total
+        party.amount_type = "credit" if party.amount >= 0 else "debit"
+        party.save()
 
     def delete(self, *args, **kwargs):
         # Adjust the party's amount before deleting the transaction

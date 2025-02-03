@@ -63,7 +63,7 @@ div.inner-data-control>button:hover {
 .transaction-container {
     max-width: 100%;
     min-width: 70%;
-    max-height: calc(100vh - 11rem);
+    max-height: calc(100vh - 16rem);
 }
 td{
     padding:.5rem;
@@ -260,4 +260,9 @@ select#user_selected{
     border-radius: .5rem;
     border-color: #000000;
     font-size: 1rem;
+}
+
+td>a{
+    text-decoration: none;
+    color: black;
 }

@@ -58,10 +58,10 @@
                     <table>
                     {% for transaction in current_transaction %}
                     <tr class="transaction">
-                    <td>    <div class="transaction-date">{{transaction.date}}</div></td>
-                    <td>    <div class="transaction-party">{{transaction.party.username}}</div></td>
-                    <td>    <div class="transaction-amount"
-                            style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{transaction.amount|floatformat:2}}</div></td>
+                    <td>  <a href="{%url 'MainApp:hisab' id=transaction.id %}">  <div class="transaction-date">{{transaction.date}}</div></a></td>
+                    <td>  <a href="{%url 'MainApp:hisab' id=transaction.id %}">  <div class="transaction-party">{{transaction.party.username}}</div></a></td>
+                    <td>  <a href="{%url 'MainApp:hisab' id=transaction.id %}">  <div class="transaction-amount"
+                            style="font-family:'Times New Roman', Times, serif;color:{% if transaction.type == 'credit' %}green{% else %}red{% endif %};">{{transaction.amount|floatformat:2}}</div></a></td>
                     </tr>
                     {% endfor %}
                 </table>
